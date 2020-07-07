@@ -1,14 +1,20 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
+    <main-tab-bar></main-tab-bar>
   </div>
 </template>
 
+<script>
+import MainTabBar from './components/contents/MainTabbar/MainTabBar.vue'
+export default {
+  name:"app",
+  components:{
+    MainTabBar
+  }
+}
+</script>
+
 <style>
- @charset 'utf-8';
- @import url('assets/src/base.css');
+ @import 'assets/css/base.css';
 </style>

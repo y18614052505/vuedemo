@@ -1,7 +1,6 @@
 
- @charset 'utf-8';
 @import "./normalize.css";
 
 body{
-    background-color:red;
+    background-color:rgb(236, 112, 112);
 }
