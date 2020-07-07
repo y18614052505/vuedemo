@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import MainTabBar from './components/contents/MainTabbar/MainTabBar.vue'
+  import MainTabBar from 'components/contents/MainTabbar/MainTabbar'
   export default {
     name:"app",
     components:{
