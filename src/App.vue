@@ -9,5 +9,6 @@
 </template>
 
 <style>
- @import 'assets/src/base.css';
+ @charset 'utf-8';
+ @import url('assets/src/base.css');
 </style>
