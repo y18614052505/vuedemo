@@ -6,13 +6,13 @@
 </template>
 
 <script>
-import MainTabBar from './components/contents/MainTabbar/MainTabBar.vue'
-export default {
-  name:"app",
-  components:{
-    MainTabBar
+  import MainTabBar from './components/contents/MainTabbar/MainTabBar.vue'
+  export default {
+    name:"app",
+    components:{
+      MainTabBar
+    }
   }
-}
 </script>
 
 <style>

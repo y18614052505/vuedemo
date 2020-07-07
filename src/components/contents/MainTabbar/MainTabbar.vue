@@ -1,5 +1,8 @@
 <template>
-  <tab-bar>
+  <div>
+    aaaa
+  </div>
+  <!-- <tab-bar>
       <tab-bar-item path ="/home">
         <img slot='item-icon' src="../../../assets/img/tabbar/home.svg" />
         <img slot='item-icon-active' src="../../../assets/img/tabbar/home_active.svg" />
@@ -20,7 +23,7 @@
         <img slot='item-icon-active' src="../../../assets/img/tabbar/profile_active.svg" />
         <div slot='item-text' >我的</div>
       </tab-bar-item>
-    </tab-bar>
+    </tab-bar> -->
 </template>
 
 <script>
@@ -29,14 +32,14 @@
 // import TabBar from "../tabbar/TabBar";
 //调用了 webpack.base.conf.js 中的 resolve("src")函数
 // components  webpack的别名中配置的名字
-import TabBar from "../../common/tabbar/TabBar.vue";
+// import TabBar from "../../common/tabbar/TabBar.vue";
 // TabBarItem  插槽组件
-import TabBarItem from '../../common/tabbar/TabBarItem.vue'
+// import TabBarItem from '../../common/tabbar/TabBarItem.vue'
 export default {
   name:"MainTabbar",
   components: {
-    TabBar,
-    TabBarItem
+    // TabBar,
+    // TabBarItem
   }
 }
 </script>
