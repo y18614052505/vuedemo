@@ -10,7 +10,6 @@ module.exports={
                 "network":"@/network",
                 "common":"@/common"//  common指的是公共的js文件夹
             }
-        },
-        plugin:[]
+        }
     }
 }
