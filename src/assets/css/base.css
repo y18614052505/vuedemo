@@ -1,6 +1,11 @@
 
 @import "./normalize.css";
-
+ul{
+    padding:0;
+}
+li{
+    list-style: none;
+}
 body{
     text-align:center;
 }

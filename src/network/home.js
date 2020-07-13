@@ -5,3 +5,9 @@ export function getHomeBanner(){
         url:'/vuedemo/banner'
     })
 }
+
+export function getFeature(){
+    return request({
+        url:'/vuedemo/feature'
+    })
+}
