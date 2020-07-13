@@ -1,5 +1,5 @@
 <template>
-  <div id="rotationBox">
+  <div :id="divID">
     <!-- 放图片 -->
     <div class="rotation" @touchstart = "touchStart" @touchend = "touchEnd" @touchmove = "touchMove">
         <slot></slot>
@@ -43,6 +43,10 @@ export default {
             type:Boolean,
             default:false, //
         },
+        divID:{
+            type:String,
+            default:"divID"
+        }
     },
     data(){
         return {
@@ -61,16 +65,22 @@ export default {
         //在挂载页面后0.5执行函数  
         setTimeout(()=>{
             //设置dom属性
-            this.handleDom()
+            this.handleDom(this.divID)
             //执行轮播定时器,轮播开始
             this.startTimer()
         },500)
     },
     methods:{
         //操作DOM
-        handleDom(){
+        handleDom(id){
+            //获取页面的盒子元素。设置css样式
+            let divId = document.querySelector(`#${id}`)
+            divId.style.overflow='hidden';
+            divId.style.background='red';
+            divId.style.position='relative';
             //获取页面的rotation 元素
-            let rotationEl = document.querySelector(".rotation")
+            //只能获取页面的第一个.rotation对象
+            let rotationEl = document.querySelector(`#${id} .rotation`)
             //获取页面的slide元素
             let slideEls = rotationEl.querySelectorAll(".slide")
             console.log(rotationEl);
@@ -197,11 +207,7 @@ export default {
 }
 </script>
 <style scoped>
-    #rotationBox{
-        overflow: hidden;
-        background:red;
-        position:relative;
-    }
+   
     .rotation{
         display: flex;
     }

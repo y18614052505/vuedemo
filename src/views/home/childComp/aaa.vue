@@ -1,5 +1,5 @@
 <template>
-    <rotation :interval = "1000" :showIndicator = "true" divID="bannerBox">
+    <rotation :interval = "1000" :showIndicator = "true" divID="aaaBox">
         <rotation-item v-for="(item,index) in cbanners" :key="index">
             <a :href="item.href">
                 <img :src="path+bannerSrc+item.crs" />

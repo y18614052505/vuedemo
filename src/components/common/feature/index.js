@@ -1,5 +1,7 @@
 import Feature from './Feature'
-import FeatureItem from './FeatrueItem'
+import FeatureItem from './FeatureItem'
+
 export {
-    Feature,FeatureItem
+    Feature,
+    FeatureItem
 }

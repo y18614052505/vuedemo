@@ -8,20 +8,21 @@
       <div slot="right">登录</div>
     </nav-bar>
     <hr />
-    <!-- <ul class="banner">
-      <li v-for="(item,index) in banners"  :key="index">
-        <img :src="path+bannerSrc+item.crs" alt="">
-      </li>
-    </ul>-->
+    <!-- 轮播图 -->
     <home-rotation :cbanners="banners"></home-rotation>
+    <hr>
+    <!-- 功能视图 -->
     <home-feature :cfeature="feature"></home-feature>
+    <hr>
+    <!-- <aaa :cbanners="banners"></aaa> -->
   </div>
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar"
 import HomeRotation from "./childComp/HomeRotation"
-import HomeFeature from "./childComp/HomeFeature"
+// import aaa from "./childComp/aaa"
+import HomeFeature from './childComp/HomeFeature'
 import * as base from "network/home"
 // import {getHomeBanner} from "network/home"
 export default {
@@ -29,23 +30,27 @@ export default {
   data() {
     return {
       banners: null,
-      feature: []
+      feature: [],
+      aaa:100.1111
     };
   },
   components: {
     NavBar,
     HomeRotation,
-    HomeFeature
+    HomeFeature,
+    // aaa
   },
   created() {
     //vue实例在创建时的钩子函数
     //页面在创建的时候，我们需要请求数据
     this.getHomeBanner();
-
-    //请求feature数据
+    //获取功能视图数据
     this.getFeature()
+    // var arr = [1,2,3,4,5]
+    // this.filterFeatrue(100)
   },
   methods: {
+    //去banner的数据
     getHomeBanner() {
       base.getHomeBanner().then(res => {
         // console.log(res);
@@ -53,46 +58,34 @@ export default {
         // this.banners = {...res}//解构赋值
       });
     },
-    getFeature() {
-      //请求数据库 返回res数据
-      // base.getFeature().then(res => {
-      //   console.log(res);
-      //   this.banners = res;
-      //   // this.banners = {...res}//解构赋值
-      // });
-      //假设 arr 就是res返回的数据
-      var arr = [
-        { id: "1", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "2", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "3", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "4", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "5", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "6", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "7", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "8", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "9", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "10", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "11", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "12", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "13", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "14", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "15", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "16", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "17", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "18", img: "xxx", href: "xxx", metail: "xxx" },
-        { id: "19", img: "xxx", href: "xxx", metail: "xxx" }
-      ];
-      for(let i = 0 ; i < arr.length/10; i++){
-        this.feature.push([])
-        for(let j = 0 ; j < arr.length ;j++){
-          if(parseInt(j/10) == i){
-            this.feature[i].push(arr[j])
+    //定义功能视图的数据
+    getFeature(){
+      base.getFeature().then(res=>{
+        console.log(res)
+        let arr = res
+
+        for(let i = 0; i < arr.length/10 ; i++){
+          this.feature.push([])
+          for(let j = 0; j < arr.length; j++){
+            if(parseInt(j/10) == i){
+              this.feature[i].push(arr[j])
+            }
           }
         }
-      }
-      console.log(this.feature);
+        console.log(this.feature);
+      })
     }
-  }
+  },
+  // filter:{
+  //   // filterFeatrue(data,i){
+  //   //   console.log(data);
+  //   //   console.log(i);
+  //   //   return data;
+  //   // }
+  //   num(data){
+  //     return "$"+data
+  //   }
+  // }
 };
 </script>
 <style scoped>
