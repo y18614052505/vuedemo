@@ -1,27 +1,46 @@
 <template>
-  <h2>分类</h2>
+  <div>
+    <h2>分类</h2>
+    <category-feature :cfeature="feature"></category-feature>
+  </div>
 </template>
 
 <script>
-import vue from 'vue'
-import axios from "axios";
-function request(){
-    const instance = new axios.create({
-        baseURL:"http://106.12.85.17:9091"
-    })
-    return instance
-}
-vue.prototype.axios = request();
+import CategoryFeature from "./childComp/CategoryFeature";
+import * as base from "network/home";
 export default {
   name: "Category",
-  created(){
-    this.aaa()
+  data(){
+    return {
+      feature:[]
+    }
+  },
+  components: {
+    CategoryFeature
+  },
+  created() {
+    //vue实例在创建时的钩子函数
+    //页面在创建的时候，我们需要请求数据
+    this.getFeature();
   },
   methods: {
-    aaa() {
-      this.axios.get('/vuedemo/banner').then(res=>{
+    //定义功能视图的数据
+    getFeature() {
+      let that = this;
+      base.getFeature().then(res => {
         console.log(res);
-      })
+        let arr = res;
+        for (let i = 0; i < arr.length / 10; i++) {
+          that.feature.push([]);
+          // arr.map((item,index)=>{
+          //   parseInt(index/10) == i ? that.feature[i].push(item):""
+          // })
+          arr.forEach((item, index) => {
+            parseInt(index / 10) == i ? that.feature[i].push(item) : "";
+          });
+        }
+        console.log(this.feature);
+      });
     }
   }
 };

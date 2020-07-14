@@ -76,7 +76,6 @@ export default {
             //获取页面的盒子元素。设置css样式
             let divId = document.querySelector(`#${id}`)
             divId.style.overflow='hidden';
-            divId.style.background='red';
             divId.style.position='relative';
             //获取页面的rotation 元素
             //只能获取页面的第一个.rotation对象
@@ -207,7 +206,6 @@ export default {
 }
 </script>
 <style scoped>
-   
     .rotation{
         display: flex;
     }

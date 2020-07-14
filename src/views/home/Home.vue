@@ -3,7 +3,7 @@
     <nav-bar class="home-nav-bar">
       <div slot="left">&lt;</div>
       <div slot="center">
-        <input type="search" placeholder="衣服" />
+        <el-input v-model="input" placeholder="请输入内容"></el-input>
       </div>
       <div slot="right">登录</div>
     </nav-bar>
@@ -12,17 +12,17 @@
     <home-rotation :cbanners="banners"></home-rotation>
     <hr>
     <!-- 功能视图 -->
-    <home-feature :cfeature="feature"></home-feature>
-    <hr>
-    <!-- <aaa :cbanners="banners"></aaa> -->
+    <home-feature :cfeature="feature" ></home-feature>
+    
+    <table-a></table-a>
   </div>
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar"
 import HomeRotation from "./childComp/HomeRotation"
-// import aaa from "./childComp/aaa"
 import HomeFeature from './childComp/HomeFeature'
+import tableA from './childComp/table'
 import * as base from "network/home"
 // import {getHomeBanner} from "network/home"
 export default {
@@ -31,14 +31,15 @@ export default {
     return {
       banners: null,
       feature: [],
-      aaa:100.1111
+      aaa:100.1111,
+      input: ''
     };
   },
   components: {
     NavBar,
     HomeRotation,
     HomeFeature,
-    // aaa
+    tableA
   },
   created() {
     //vue实例在创建时的钩子函数
@@ -60,17 +61,18 @@ export default {
     },
     //定义功能视图的数据
     getFeature(){
+      let that = this
       base.getFeature().then(res=>{
         console.log(res)
         let arr = res
-
         for(let i = 0; i < arr.length/10 ; i++){
-          this.feature.push([])
-          for(let j = 0; j < arr.length; j++){
-            if(parseInt(j/10) == i){
-              this.feature[i].push(arr[j])
-            }
-          }
+          that.feature.push([])
+          // arr.map((item,index)=>{
+          //   parseInt(index/10) == i ? that.feature[i].push(item):""
+          // })
+          arr.forEach((item,index)=>{
+            parseInt(index/10) == i ? that.feature[i].push(item):""
+          })
         }
         console.log(this.feature);
       })
