@@ -1,49 +1,46 @@
 <template>
-  <div id="home">
-    <nav-bar class="home-nav-bar">
-      <div slot="left">&lt;</div>
+  <div id="jx">
+    <nav-bar class="jx-nav-bar">
       <div slot="center">
-        <el-input v-model="input" placeholder="请输入内容"></el-input>
+        惊喜
       </div>
-      <div slot="right">登录</div>
     </nav-bar>
     <hr />
     <!-- 轮播图 -->
-    <home-rotation :cbanners="banners"></home-rotation>
+    <jx-rotation :cbanners="banners"></jx-rotation>
     <hr>
     <!-- 功能视图 -->
-    <home-feature :cfeature="feature" ></home-feature>
+    <jx-feature :cfeature="feature" :iscopy='iscopy'></jx-feature>
   </div>
 </template>
 
 <script>
 import NavBar from "components/common/navbar/NavBar"
-import HomeRotation from "./childComp/HomeRotation"
-import HomeFeature from './childComp/HomeFeature'
+import JxRotation from "./childComp/JxRotation"
+import JxFeature from './childComp/JxFeature'
 // import {getHomeBanner} from "network/home"
 
 //引入网络请求模块部分组件/方法
 import {getHomeBanner,getFeature} from "network/home";
 
 export default {
-  name: "Home",
+  name: "Jx",//惊喜 惊吓
   data() {
     return {
       banners: null,
-      feature: [],
-      aaa:100.1111,
-      input: '',
+      feature: [], 
+      iscopy:true
     };
   },
   components: {
     NavBar,
-    HomeRotation,
-    HomeFeature,
+    JxRotation,
+    JxFeature,
   },
   created() {
     //vue实例在创建时的钩子函数
     //页面在创建的时候，我们需要请求数据
-    this.getHomeBanner();
+    this.getJxBanner();
     //获取功能视图数据
     this.getFeature()
     // var arr = [1,2,3,4,5]
@@ -51,7 +48,7 @@ export default {
   },
   methods: {
     //去banner的数据
-    getHomeBanner() {
+    getJxBanner() {
       getHomeBanner().then(res => {
         // console.log(res);
         this.banners = res;
@@ -77,24 +74,14 @@ export default {
       }) 
     }
   },
-  // filters:{
-  //   // filterFeatrue(data,i){
-  //   //   console.log(data);
-  //   //   console.log(i);
-  //   //   return data;
-  //   // }
-  //   num(data){
-  //     return "$"+data
-  //   }
-  // }
 };
 </script>
 <style scoped>
-#home {
+#jx {
   padding-top: 44px;
   height: 100vh;
 }
-.home-nav-bar {
+.jx-nav-bar {
   background-color: #e43130;
   color: white;
   position: fixed;

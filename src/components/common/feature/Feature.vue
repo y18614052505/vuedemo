@@ -173,6 +173,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.handleDom(this.divID);
+      console.log(this.iscopy);
     }, 500);
   }
 };

@@ -1,6 +1,6 @@
 <template>
     <!-- 用于关联feature组件 -->
-    <feature divID="CategoryFeature" :iscopy='iscopy'>
+    <feature divID="HomeFeature" :iscopy="iscopy">
         <feature-item v-for="(item,index) in cfeature" :key="index">
             <li v-for="i in item" :key="i.id">
                 <a :href="i.Imghref">
@@ -22,7 +22,7 @@
 <script>
 import {Feature,FeatureItem} from 'components/common/feature'
 export default {
-    name:"CategoryFeature",
+    name:"HomeFeature",
     props:{
         cfeature:{
             type:Array,

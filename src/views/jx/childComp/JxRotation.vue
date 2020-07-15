@@ -1,5 +1,5 @@
 <template>
-    <rotation :interval = "1000" :showIndicator = "true" divID="bannerBox">
+    <rotation :interval = "1000" :showIndicator = "true" divID="jxBannerBox">
         <rotation-item v-for="(item,index) in cbanners" :key="index">
             <a :href="item.href">
                 <img :src="path+bannerSrc+item.crs" />
@@ -27,7 +27,7 @@ export default {
     },
     data() {
         return {
-            path: "http://106.12.85.17:8090/",
+            path: "http://106.12.85.17:9091/",
             bannerSrc: "public/image/banner/"
         };
     }

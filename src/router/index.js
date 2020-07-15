@@ -6,6 +6,7 @@ const Home = () => import("views/home/Home")
 const Category = () => import("views/category/Category")
 const Cart = () => import("views/cart/Cart")
 const Proflie = () => import("views/profile/Profile")
+const Jx = () => import("views/jx/Jx")
 
 
 export default new Router({
@@ -29,6 +30,10 @@ export default new Router({
     {
       path:"/profile",// 我的
       component:Proflie
+    },
+    {
+      path:"/jx",// 惊喜
+      component:Jx
     }
   ]
 })
