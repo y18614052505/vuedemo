@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "better-scroll": "^1.15.2",
     "core-js": "^3.6.5",
     "css-loader": "^3.6.0",
     "element-ui": "^2.13.2",

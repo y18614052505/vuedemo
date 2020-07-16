@@ -1,67 +1,85 @@
 <template>
-  <div :id="componentsId" class="TabControl">
+  <div :id="controlId" class="tabControl">
     <div>
       <slot></slot>
     </div>
-    <div v-for="item in titlesArr" :key="item.c1_id">
-      <span
-        @click="itemClick(item.c1_id)"
-        :class="{active:ListIndex == item.c1_id}"
-      >{{item.c1_name}}--{{item.c1_id}}</span>
+    <div
+      v-for="item in titleArr"
+      :key="item.c1_id"
+      @click="itemClick(item.c1_id)"
+      :class="{active:itemIndex == item.c1_id}"
+    >
+      <span>{{item.c1_name}}</span>
+      --
+      <slot name="subName">{{item.c1_id}}</slot>
     </div>
   </div>
+  <!-- <ul :id="controlId" class="tabControl">
+    <li v-for="item in titleArr" :key="item.c1_id">
+      <div>
+        <span>{{item.c1_name}}</span>
+        --
+        <slot>{{item.c1_id}}</slot>
+      </div>
+    </li>
+  </ul>-->
 </template>
 
 <script>
 export default {
   name: "TabControl",
   props: {
-    componentsId: {
+    controlId: {
       type: String,
-      default: "TabControl"
+      default: "tabControl"
     },
-    titlesArr: {
+    titleArr: {
       type: Array,
       default() {
         return [];
       }
+    },
+    direction: {
+      //排列的方向
+      type: String,
+      default: "transverse" //纵向portrait  横向transverse
     }
   },
   data() {
     return {
-      ListIndex: 0
-      //   currentIndex: 0
+      itemIndex: 0
     };
   },
   components: {},
+  computed: {},
   created() {},
-  mounted() {
-    console.log(this.titlesArr);
-  },
+  mounted() {},
   methods: {
     itemClick(index) {
-      //   console.log(index);
-      //   this.ListIndex = index;
-      this.$emit("tabClick", index);
+      //在子组件中如果想使用父组件传递过来的事件，需要通过使用$emit
+        this.$emit('tabClick',index)
+      // $parent 直接使用父组件的事件(只能找到上一个父元素)
+      //   this.$parent.tabControlClick(index);
+      this.itemIndex = index;
+      console.log(index);
     }
   }
 };
 </script>
 <style lang='less' scoped>
-.TabControl {
+// 如是想要使用less 建议 去 vue ui视图界面中添加
+.tabControl {
   width: 100%;
   font-size: 12px;
-  div {
-    border-bottom: 1px solid #dcdcdc;
-    span {
-      display: block;
-      height: 40px;
-      line-height: 40px;
-      background-clip: content-box;
-    }
-  }
+  line-height: 40px;
+}
+.tabControl div {
+  border-bottom: 1px solid #555555;
+  height: 40px;
 }
 .active {
-  background-color: red;
+  color: red;
+  background-color:#fff;
 }
 </style>
+
