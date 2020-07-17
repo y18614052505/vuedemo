@@ -8,46 +8,96 @@
       <div slot="right">登录</div>
     </nav-bar>
     <hr />
-    <!-- 轮播图 -->
-    <home-rotation :cbanners="banners"></home-rotation>
-    <hr>
-    <!-- 功能视图 -->
-    <home-feature :cfeature="feature" ></home-feature>
+    <scroll 
+      class="homeContent" 
+      :probeType="3" 
+      @parentScroll="HomeScroll" 
+      ref="scrollCom"
+      :pullUpLoad="true"
+      @pullingUp='loadMore'
+    >
+      <!-- 轮播图 -->
+      <home-rotation :cbanners="banners"></home-rotation>
+      <hr />
+      <!-- 功能视图 -->
+      <home-feature :cfeature="feature"></home-feature>
+      <hr />
+      <div class="tabContent">
+        <div class='tabTitle'>  
+          <button @click="tabClick('recommend')">recommend</button>
+          <button @click="tabClick('news')">news</button>
+        </div>
+        <div v-for="(item,key) in goods" :key="key">
+          <ul v-if='tabCurrentType == key'>
+            <li v-for="(i,index) in item.list" :key="index">
+              <a href="javascript:;">
+                <img :src="path+i.c3_img"/>
+                <span>{{i.c3_name}}</span>
+              </a>
+              <hr/>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </scroll>
+    <a class="toTop" @click="toTop" v-if="isShowBackTop">返回顶部</a>
   </div>
 </template>
 
 <script>
-import NavBar from "components/common/navbar/NavBar"
-import HomeRotation from "./childComp/HomeRotation"
-import HomeFeature from './childComp/HomeFeature'
+//引入公共组件
+import NavBar from "components/common/navbar/NavBar";
+//引入公共组件中跟项目....
+import Scroll from "components/contents/scroll/Scroll";
+//引入当前组件的子组件
+import HomeRotation from "./childComp/HomeRotation";
+import HomeFeature from "./childComp/HomeFeature";
 // import {getHomeBanner} from "network/home"
 
+//引入其他文件
 //引入网络请求模块部分组件/方法
-import {getHomeBanner,getFeature} from "network/home";
+import { getHomeBanner, getFeature, get_jd_category_max } from "network/home";
 
 export default {
   name: "Home",
   data() {
     return {
+      path:"http://106.12.85.17:8090/public/image/jd_category/",
       banners: null,
       feature: [],
-      aaa:100.1111,
-      input: '',
+      aaa: 100.1111,
+      input: "",
+      num: 500,
+      isShowBackTop: false,
+      //接收商品的obj
+      goods: {
+        recommend: {
+          page: 0,
+          list: []
+        },
+        news: {
+          page: 10,
+          list: []
+        }
+      },
+      tabCurrentType:'recommend'
     };
   },
   components: {
     NavBar,
+    Scroll,
     HomeRotation,
-    HomeFeature,
+    HomeFeature
   },
   created() {
     //vue实例在创建时的钩子函数
     //页面在创建的时候，我们需要请求数据
     this.getHomeBanner();
     //获取功能视图数据
-    this.getFeature()
+    this.getFeature();
     // var arr = [1,2,3,4,5]
     // this.filterFeatrue(100)
+    this.getGoodsMax('recommend');
   },
   methods: {
     //去banner的数据
@@ -59,40 +109,59 @@ export default {
       });
     },
     //定义功能视图的数据
-    getFeature(){
-      let that = this
-      getFeature().then(res=>{
-        console.log(res)
-        let arr = res
-        for(let i = 0; i < arr.length/10 ; i++){
-          that.feature.push([])
+    getFeature() {
+      let that = this;
+      getFeature().then(res => {
+        // console.log(res);
+        let arr = res;
+        for (let i = 0; i < arr.length / 10; i++) {
+          that.feature.push([]);
           // arr.map((item,index)=>{
           //   parseInt(index/10) == i ? that.feature[i].push(item):""
           // })
-          arr.forEach((item,index)=>{
-            parseInt(index/10) == i ? that.feature[i].push(item):""
-          })
+          arr.forEach((item, index) => {
+            parseInt(index / 10) == i ? that.feature[i].push(item) : "";
+          });
         }
-        console.log(this.feature);
-      }) 
+        // console.log(this.feature);
+      });
+    },
+    //home页面的商品数据请求
+    getGoodsMax(type) {
+      let page = this.goods[type].page+1;
+      get_jd_category_max(page).then(res => {
+        // console.log(res);
+        this.goods[type].page+=1
+        this.goods[type].list.push(...res);
+        this.$refs.scrollCom.scroll.finishPullUp()
+      });
+    },
+    HomeScroll(position) {
+      // console.log(position);
+      this.isShowBackTop = -position.y > 1000;
+      // console.log(this.isShowBackTop);
+    },
+    toTop() {
+      // console.log("回到顶部");
+      this.$refs.scrollCom.scrollTo(0, 0, 300);
+    },
+    loadMore(){
+      this.getGoodsMax(this.tabCurrentType)
+    },
+    tabClick(type){
+      this.tabCurrentType = type;
+      if(!this.goods[type].list.length){
+        this.getGoodsMax(type)
+      }
     }
-  },
-  // filters:{
-  //   // filterFeatrue(data,i){
-  //   //   console.log(data);
-  //   //   console.log(i);
-  //   //   return data;
-  //   // }
-  //   num(data){
-  //     return "$"+data
-  //   }
-  // }
+  }
 };
 </script>
 <style scoped>
 #home {
-  padding-top: 44px;
+  /* padding-top: 44px; */
   height: 100vh;
+  position: relative;
 }
 .home-nav-bar {
   background-color: #e43130;
@@ -102,5 +171,41 @@ export default {
   left: 0;
   right: 0;
   z-index: 100;
+}
+.homeContent {
+  position: absolute;
+  top: 44px;
+  left: 0;
+  right: 0;
+  bottom: 49px;
+  overflow: hidden;
+}
+.toTop {
+  position: absolute;
+  bottom: 100px;
+  right: 5px;
+  background-color: red;
+}
+.tabContent{
+  display: flex;
+  flex-wrap: wrap;
+}
+.tabContent .tabTitle{
+  width:100%;
+  display:flex;
+}
+.tabContent .tabTitle button{
+  width:50%;
+  height:40px;
+  flex:1
+}
+.tabContent div{
+  width:100%;
+}
+.tabContent div ul{
+  width:100;
+}
+.tabContent div ul li img{
+  width:30%;
 }
 </style>

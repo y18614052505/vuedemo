@@ -1,6 +1,6 @@
 <template>
   <div id="category">
-    <div class="one">
+    <scroll class="one" ref="one" >
       <tab-control
         :controlId="tabControlId"
         :titleArr="jd_category_one"
@@ -13,48 +13,52 @@
           <span>0</span>
         </div>
       </tab-control>
-    </div>
-    <div class="two">
-      <div v-if="controlIndex === 'hot'">
-        <h1>热门商品</h1>
-        <dl v-if="shophistory.length">
-          <dt>
-            浏览记录
-            <el-button type="text" @click="rmHistory">清空</el-button>
-          </dt>
-          <dd></dd>
-        </dl>
-        <dl v-for="(item,key) in secMenuList" :key="key">
-          <dt>热门分类</dt>
-          <dd v-for="(item,key) in secMenuList" :key="key">
-            <img :src="path + item.c3_img" alt />
-            <span>{{item.c3_name}}</span>
-          </dd>
-        </dl>
-      </div>
-      <div v-if="controlIndex != 'hot'">
-        <dl v-for="(list,index) in secMenuList" :key="index">
-          <dt>{{index}}</dt>
-          <dd v-for="(item,key) in list" :key="key">
-            <a :href="'/details/'+item">
+    </scroll>
+    <scroll class="two" ref="two">
+      <div>
+        <div v-if="controlIndex === 'hot'">
+          <h1>热门商品</h1>
+          <dl v-if="shophistory.length">
+            <dt>
+              浏览记录
+              <el-button type="text" @click="rmHistory">清空</el-button>
+            </dt>
+            <dd></dd>
+          </dl>
+          <dl>
+            <dt>热门分类</dt>
+            <dd v-for="(item,key) in secMenuList" :key="key">
               <img :src="path + item.c3_img" alt />
               <span>{{item.c3_name}}</span>
-            </a>
-          </dd>
-        </dl>
+            </dd>
+          </dl>
+        </div>
+        <div v-if="controlIndex != 'hot'">
+          <dl v-for="(list,index) in secMenuList" :key="index">
+            <dt>{{index}}</dt>
+            <dd v-for="(item,key) in list" :key="key">
+              <a :href="'/details/'+item">
+                <img :src="path + item.c3_img" alt />
+                <span>{{item.c3_name}}</span>
+              </a>
+            </dd>
+          </dl>
+        </div>
       </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
 <script>
 import TabControl from "components/contents/tabControl/TabControl";
+
+import Scroll from 'components/contents/scroll/Scroll'
 //引入网络模块的部分功能/方法
 import {
   get_jd_category_one,
   get_jd_category_two,
   get_jd_category_three
-} from "network/home";
+} from "network/category";
 export default {
   name: "Category",
   data() {
@@ -68,11 +72,12 @@ export default {
       secMenuList: null, //可能是数组，也可能是对象
       controlIndex: "hot",
       path: "http://106.12.85.17:8090/public/image/jd_category/",
-      shophistory: [1] // 已经浏览的记录  在发生页面跳转后，在路由守卫中记录当前请求的数据，并在页面跳转前，存储到shophistory中(把整个three中找到的那条数据存进来)
+      shophistory: [1], // 已经浏览的记录  在发生页面跳转后，在路由守卫中记录当前请求的数据，并在页面跳转前，存储到shophistory中(把整个three中找到的那条数据存进来)
     };
   },
   components: {
-    TabControl
+    TabControl,
+    Scroll
   },
   created() {
     //vue实例在创建时的钩子函数
@@ -111,9 +116,7 @@ export default {
             this.secMenuList[twoList.c2_name] = {};
             this.jd_category_three.forEach(threeList => {
               if (threeList.c2_id == twoList.c2_id) {
-                this.secMenuList[twoList.c2_name][
-                  threeList.c3_name
-                ] = threeList;
+                this.secMenuList[twoList.c2_name][threeList.c3_name] = threeList;
               }
             });
           }
@@ -127,45 +130,60 @@ export default {
       //(ref = categoryControl 的组件的值)
       this.$refs.categoryControl.itemIndex = index;
     },
-    rmHistory(){
+    rmHistory() {
       let that = this;
       this.$confirm("是否删除浏览记录?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      }).then(() => {
+      })
+        .then(() => {
           that.shophistory = [];
           this.$message({
             type: "success",
             message: "删除成功!"
           });
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$message({
             type: "info",
             message: "已取消删除"
           });
         });
+      // console.log(this.$message());
+    },
+    contentScroll(position){
+      console.log("contentScroll被使用",position);
     },
     //网络请求
     get_jd_category_one() {
       get_jd_category_one().then(res => {
-        console.log(res);
+        // console.log(res);
         if (res) this.jd_category_one.push(...res);
       });
     },
     get_jd_category_two() {
       get_jd_category_two().then(res => {
-        console.log(res);
+        // console.log(res);
         if (res) this.jd_category_two.push(...res);
       });
     },
     get_jd_category_three() {
       get_jd_category_three().then(res => {
-        console.log(res);
+        // console.log(res);
         if (res) this.jd_category_three.push(...res);
         this.tabControlClick(this.controlIndex);
       });
-    }
+    },
+  },
+  mounted() {
+    // console.log(this.$refs.one);
+    // this.scroll = new BScroll(document.querySelector(".one"),{
+    //   click:true
+    // });
+    // this.scroll = new BScroll(this.$refs.two,{
+    //   click:true
+    // });
   }
 };
 </script>
@@ -177,6 +195,8 @@ export default {
 .one {
   flex: 1;
   background-color: #dcdcdc;
+  height: calc(100vh - 49px);
+  overflow: hidden;
 }
 .one li {
   width: 100%;
@@ -192,6 +212,8 @@ export default {
   .two {
     flex: 3;
     padding: 20px;
+    height: calc(100vh - 49px);
+    overflow: hidden;
     /* background-color: red; */
   }
 }
@@ -200,6 +222,8 @@ export default {
     flex: 6;
     /* background-color: green; */
     padding: 20px;
+    height: calc(100vh - 49px);
+    overflow: hidden;
   }
 }
 .active {
