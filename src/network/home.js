@@ -21,7 +21,9 @@ export function get_jd_category_max(page) {
     return request({
         url: "/vuedemo/get_jd_category_three",
         params: {
-            page:page
+            page:page,
+            // c1_id:   c2_id  
+
         }
     })
 }

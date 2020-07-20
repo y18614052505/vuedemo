@@ -8,32 +8,79 @@ const Cart = () => import("views/cart/Cart")
 const Proflie = () => import("views/profile/Profile")
 const Jx = () => import("views/jx/Jx")
 
+const routes = [
+  // {
+  //   path: '',
+  //   redirect: "/home"
+  // },
+  {
+    path: "/home",//首页
+    mata: {
+      title: "首页"
+    },
+    component: Home
+  },
+  {
+    path: "/category",//分类
+    mata: {
+      title: "首页"
+    },
+    component: Category
+  },
+  {
+    path: "/cart",//购物车
+    mata: {
+      title: "购物车"
+    },
+    component: Cart
+  },
+  {
+    path: "/profile",// 我的
+    mata: {
+      title: "我的"
+    },
+    component: Proflie
+  },
+  {
+    path: "/jx",// 惊喜
+    mata: {
+      title: "惊喜"
+    },
+    component: Jx
+  },
+  {
+    path: '/search',
+    mata: {
+      title: "搜索"
+    },
+    template: { template: '<div>foo</div>' }
+  }
+]
 
-export default new Router({
-  routes: [
-    {
-      path:'',
-      redirect:"/home"
-    },
-    {
-      path:"/home",//首页
-      component:Home
-    },
-    {
-      path:"/category",//分类
-      component:Category
-    },
-    {
-      path:"/cart",//购物车
-      component:Cart
-    },
-    {
-      path:"/profile",// 我的
-      component:Proflie
-    },
-    {
-      path:"/jx",// 惊喜
-      component:Jx
-    }
-  ]
+const routers = new Router({
+  routes,
+  // mode:'history',//可以修改模式
 })
+routers.beforeEach((to, from, next) => {
+  console.log(from.path);
+  if (to.path == '/cart') {
+    console.log("走了成功");
+    return
+  } else {
+    console.log('走了否则');
+
+    console.log()
+    console.log('beforeEach');
+    console.log(from);
+    console.log(to);
+  }
+  // document.title = to.matched[0].meta.title
+  next()
+})
+routers.afterEach((to, from) => {
+  console.log(this);
+  console.log('afterEach');
+  console.log(from);
+  console.log(to);
+})
+export default routers

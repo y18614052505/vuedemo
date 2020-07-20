@@ -27,7 +27,7 @@ export default {
     },
     data() {
         return {
-            path: "http://106.12.85.17:9091/",
+            path: "http://106.12.85.17:8090/",
             bannerSrc: "public/image/banner/"
         };
     }

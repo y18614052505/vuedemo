@@ -1,58 +1,69 @@
 <template>
-  <div id="category">
-    <scroll class="one" ref="one" >
-      <tab-control
-        :controlId="tabControlId"
-        :titleArr="jd_category_one"
-        @tabClick="tabControlClick"
-        ref="categoryControl"
-      >
-        <div @click="tabControlClick('hot')" :class="{active:controlIndex == 'hot'}">
-          <span>热门推荐</span>
-          --
-          <span>0</span>
-        </div>
-      </tab-control>
-    </scroll>
-    <scroll class="two" ref="two">
-      <div>
-        <div v-if="controlIndex === 'hot'">
-          <h1>热门商品</h1>
-          <dl v-if="shophistory.length">
-            <dt>
-              浏览记录
-              <el-button type="text" @click="rmHistory">清空</el-button>
-            </dt>
-            <dd></dd>
-          </dl>
-          <dl>
-            <dt>热门分类</dt>
-            <dd v-for="(item,key) in secMenuList" :key="key">
-              <img :src="path + item.c3_img" alt />
-              <span>{{item.c3_name}}</span>
-            </dd>
-          </dl>
-        </div>
-        <div v-if="controlIndex != 'hot'">
-          <dl v-for="(list,index) in secMenuList" :key="index">
-            <dt>{{index}}</dt>
-            <dd v-for="(item,key) in list" :key="key">
-              <a :href="'/details/'+item">
+  <div>
+    <nav-bar class="home-nav-bar" @leftBarClick='back'>
+      <div slot="left">&lt;</div>
+      <div slot="center">
+        <el-input v-model="input" placeholder="请输入内容"></el-input>
+      </div>
+      <div slot="right">登录</div>
+    </nav-bar>
+    <div id="category">
+      <scroll class="one" ref="one">
+        <tab-control
+          :controlId="tabControlId"
+          :titleArr="jd_category_one"
+          @tabClick="tabControlClick"
+          ref="categoryControl"
+        >
+          <div @click="tabControlClick('hot')" :class="{active:controlIndex == 'hot'}">
+            <span>热门推荐</span>
+            --
+            <span>0</span>
+          </div>
+        </tab-control>
+      </scroll>
+      <scroll class="two" ref="two">
+        <div>
+          <div v-if="controlIndex === 'hot'">
+            <h1>热门商品</h1>
+            <dl v-if="shophistory.length">
+              <dt>
+                浏览记录
+                <el-button type="text" @click="rmHistory">清空</el-button>
+              </dt>
+              <dd></dd>
+            </dl>
+            <dl>
+              <dt>热门分类</dt>
+              <dd v-for="(item,key) in secMenuList" :key="key">
                 <img :src="path + item.c3_img" alt />
                 <span>{{item.c3_name}}</span>
-              </a>
-            </dd>
-          </dl>
+              </dd>
+            </dl>
+          </div>
+          <div v-if="controlIndex != 'hot'">
+            <dl v-for="(list,index) in secMenuList" :key="index">
+              <dt>{{index}}</dt>
+              <dd v-for="(item,key) in list" :key="key">
+                <a :href="'/details/'+item">
+                  <img :src="path + item.c3_img" alt />
+                  <span>{{item.c3_name}}</span>
+                </a>
+              </dd>
+            </dl>
+          </div>
         </div>
-      </div>
-    </scroll>
+      </scroll>
+    </div>
   </div>
 </template>
 
 <script>
+//引入公共组件
+import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/contents/tabControl/TabControl";
 
-import Scroll from 'components/contents/scroll/Scroll'
+import Scroll from "components/contents/scroll/Scroll";
 //引入网络模块的部分功能/方法
 import {
   get_jd_category_one,
@@ -73,12 +84,11 @@ export default {
       controlIndex: "hot",
       path: "http://106.12.85.17:8090/public/image/jd_category/",
       shophistory: [1], // 已经浏览的记录  在发生页面跳转后，在路由守卫中记录当前请求的数据，并在页面跳转前，存储到shophistory中(把整个three中找到的那条数据存进来)
+      input: "",
     };
   },
-  components: {
-    TabControl,
-    Scroll
-  },
+  components: { 
+    NavBar, TabControl, Scroll },
   created() {
     //vue实例在创建时的钩子函数
     //页面在创建的时候，我们需要请求数据
@@ -116,7 +126,9 @@ export default {
             this.secMenuList[twoList.c2_name] = {};
             this.jd_category_three.forEach(threeList => {
               if (threeList.c2_id == twoList.c2_id) {
-                this.secMenuList[twoList.c2_name][threeList.c3_name] = threeList;
+                this.secMenuList[twoList.c2_name][
+                  threeList.c3_name
+                ] = threeList;
               }
             });
           }
@@ -152,8 +164,8 @@ export default {
         });
       // console.log(this.$message());
     },
-    contentScroll(position){
-      console.log("contentScroll被使用",position);
+    contentScroll(position) {
+      console.log("contentScroll被使用", position);
     },
     //网络请求
     get_jd_category_one() {
@@ -175,6 +187,11 @@ export default {
         this.tabControlClick(this.controlIndex);
       });
     },
+    back(){
+      this.$router.go(-1)
+      // window.history.go(-1)
+      // console.log(document.referrer);
+    }
   },
   mounted() {
     // console.log(this.$refs.one);
@@ -195,7 +212,7 @@ export default {
 .one {
   flex: 1;
   background-color: #dcdcdc;
-  height: calc(100vh - 49px);
+  height: calc(100vh - 93px);
   overflow: hidden;
 }
 .one li {
