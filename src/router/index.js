@@ -9,10 +9,10 @@ const Proflie = () => import("views/profile/Profile")
 const Jx = () => import("views/jx/Jx")
 
 const routes = [
-  // {
-  //   path: '',
-  //   redirect: "/home"
-  // },
+  {
+    path: '',
+    redirect: "/home"
+  },
   {
     path: "/home",//首页
     mata: {
@@ -59,7 +59,7 @@ const routes = [
 
 const routers = new Router({
   routes,
-  // mode:'history',//可以修改模式
+  mode:'history',//可以修改模式
 })
 routers.beforeEach((to, from, next) => {
   console.log(from.path);

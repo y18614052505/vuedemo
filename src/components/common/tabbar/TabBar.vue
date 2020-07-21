@@ -1,12 +1,12 @@
 <template>
-  <div id="tab-bar">
+  <div id="tab-bar" >
     <slot>用来插入bar-item</slot>
   </div>
 </template>
 
 <script>
 export default {
-  name: "TabBar"
+  name: "TabBar",
 };
 </script>
 

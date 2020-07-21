@@ -1,6 +1,7 @@
 <template>
   <div id="jx">
     <nav-bar class="jx-nav-bar">
+        <div slot='left' @click='$router.go(-1)'>&lt;</div>
       <div slot="center">
         惊喜
       </div>
@@ -72,7 +73,7 @@ export default {
         }
         console.log(this.feature);
       }) 
-    }
+    },
   },
 };
 </script>

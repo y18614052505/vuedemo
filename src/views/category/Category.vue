@@ -1,7 +1,8 @@
 <template>
   <div>
-    <nav-bar class="home-nav-bar" @leftBarClick='back'>
-      <div slot="left">&lt;</div>
+    <!-- <nav-bar class="home-nav-bar" @leftBarClick='back'> -->
+    <nav-bar class="home-nav-bar">
+      <div slot="left" @click='back'>&lt;</div>
       <div slot="center">
         <el-input v-model="input" placeholder="请输入内容"></el-input>
       </div>
