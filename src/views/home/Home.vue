@@ -1,20 +1,20 @@
 <template>
   <div id="home">
-    <nav-bar class="home-nav-bar">
-      <div slot="left">&lt;</div>
+    <nav-bar class="home-nav-bar" @leftBarClick="toCategory">
+      <div slot="left">分类</div>
       <div slot="center">
-        <el-input v-model="input" placeholder="请输入内容"></el-input>
+        <el-input v-model="input" placeholder="请输入内容" v-on:focus="toSearch"></el-input>
       </div>
       <div slot="right">登录</div>
     </nav-bar>
     <hr />
-    <scroll 
-      class="homeContent" 
-      :probeType="3" 
-      @parentScroll="HomeScroll" 
+    <scroll
+      class="homeContent"
+      :probeType="3"
+      @parentScroll="HomeScroll"
       ref="scrollCom"
       :pullUpLoad="true"
-      @pullingUp='loadMore'
+      @pullingUp="loadMore"
     >
       <!-- 轮播图 -->
       <home-rotation :cbanners="banners"></home-rotation>
@@ -22,12 +22,36 @@
       <!-- 功能视图 -->
       <home-feature :cfeature="feature"></home-feature>
       <hr />
+
+      <div>
+        <button style="width:100%" @click="changeDirection">
+          改变商品数据排列
+        </button>
+      </div>
       <div class="tabContent">
-        <div class='tabTitle'>  
+        <div class="tabTitle">
           <button @click="tabClick('recommend')">recommend</button>
           <button @click="tabClick('news')">news</button>
+          
         </div>
-        <div v-for="(item,key) in goods" :key="key">
+        <!-- <div>
+          {{showGoodsList}}
+          <hr/>
+        </div> -->
+
+        <goods-list :cgoods='showGoodsList' :cpath="path" :cisDirection='parentDirection'></goods-list>
+        <!-- <goods-list1 :cgoods='goods' :cpath="path"></goods-list1> -->
+
+
+
+
+
+
+
+
+
+
+        <!-- <div v-for="(item,key) in goods" :key="key">
           <ul v-if='tabCurrentType == key'>
             <li v-for="(i,index) in item.list" :key="index">
               <a href="javascript:;">
@@ -37,7 +61,7 @@
               <hr/>
             </li>
           </ul>
-        </div>
+        </div>-->
       </div>
     </scroll>
     <a class="toTop" @click="toTop" v-if="isShowBackTop">返回顶部</a>
@@ -49,6 +73,8 @@
 import NavBar from "components/common/navbar/NavBar";
 //引入公共组件中跟项目....
 import Scroll from "components/contents/scroll/Scroll";
+import GoodsList from "components/contents/goods/GoodsList";
+// import GoodsList1 from "components/contents/goods/GoodsList1";
 //引入当前组件的子组件
 import HomeRotation from "./childComp/HomeRotation";
 import HomeFeature from "./childComp/HomeFeature";
@@ -62,7 +88,7 @@ export default {
   name: "Home",
   data() {
     return {
-      path:"http://106.12.85.17:8090/public/image/jd_category/",
+      path: "http://106.12.85.17:8090/public/image",
       banners: null,
       feature: [],
       aaa: 100.1111,
@@ -80,12 +106,15 @@ export default {
           list: []
         }
       },
-      tabCurrentType:'recommend'
+      tabCurrentType: "recommend",
+      parentDirection:true,
     };
   },
   components: {
     NavBar,
     Scroll,
+    GoodsList,
+    // GoodsList1,
     HomeRotation,
     HomeFeature
   },
@@ -97,7 +126,13 @@ export default {
     this.getFeature();
     // var arr = [1,2,3,4,5]
     // this.filterFeatrue(100)
-    this.getGoodsMax('recommend');
+    this.getGoodsMax("recommend");
+    this.getGoodsMax('news');
+  },
+  computed:{
+    showGoodsList(){
+      return this.goods[this.tabCurrentType].list
+    }
   },
   methods: {
     //去banner的数据
@@ -126,33 +161,46 @@ export default {
         // console.log(this.feature);
       });
     },
-    //home页面的商品数据请求
-    getGoodsMax(type) {
-      let page = this.goods[type].page+1;
-      get_jd_category_max(page).then(res => {
-        // console.log(res);
-        this.goods[type].page+=1
-        this.goods[type].list.push(...res);
-        this.$refs.scrollCom.scroll.finishPullUp()
-      });
-    },
     HomeScroll(position) {
       // console.log(position);
       this.isShowBackTop = -position.y > 1000;
       // console.log(this.isShowBackTop);
     },
+    //回到顶部
     toTop() {
       // console.log("回到顶部");
       this.$refs.scrollCom.scrollTo(0, 0, 300);
     },
-    loadMore(){
-      this.getGoodsMax(this.tabCurrentType)
+    //home页面的商品数据请求
+    getGoodsMax(type) {
+      let page = this.goods[type].page + 1;
+      get_jd_category_max(page).then(res => {
+        // console.log(res);
+        this.goods[type].page += 1;
+        this.goods[type].list.push(...res);
+        this.$refs.scrollCom.scroll.finishPullUp();
+      });
     },
-    tabClick(type){
+    //加载更多数据
+    loadMore() {
+      this.getGoodsMax(this.tabCurrentType);
+    },
+    //点击切换
+    tabClick(type) {
       this.tabCurrentType = type;
-      if(!this.goods[type].list.length){
-        this.getGoodsMax(type)
-      }
+      // if (!this.goods[type].list.length) {
+      //   this.getGoodsMax(type);
+      // }
+    },
+    toCategory() {
+      this.$router.push("/category");
+    },
+    toSearch() {
+      console.log("focus");
+      this.$router.push("/search");
+    },
+    changeDirection(){
+      this.parentDirection = !this.parentDirection
     }
   }
 };
@@ -186,26 +234,26 @@ export default {
   right: 5px;
   background-color: red;
 }
-.tabContent{
+.tabContent {
   display: flex;
   flex-wrap: wrap;
 }
-.tabContent .tabTitle{
-  width:100%;
-  display:flex;
+.tabContent .tabTitle {
+  width: 100%;
+  display: flex;
 }
-.tabContent .tabTitle button{
-  width:50%;
-  height:40px;
-  flex:1
+.tabContent .tabTitle button {
+  width: 50%;
+  height: 40px;
+  flex: 1;
 }
-.tabContent div{
-  width:100%;
+.tabContent div {
+  width: 100%;
 }
-.tabContent div ul{
-  width:100;
+.tabContent div ul {
+  width: 100;
 }
-.tabContent div ul li img{
-  width:30%;
+.tabContent div ul li img {
+  width: 30%;
 }
 </style>

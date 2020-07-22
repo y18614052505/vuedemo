@@ -1,10 +1,9 @@
 <template>
   <div>
-    <!-- <nav-bar class="home-nav-bar" @leftBarClick='back'> -->
     <nav-bar class="home-nav-bar">
       <div slot="left" @click='back'>&lt;</div>
       <div slot="center">
-        <el-input v-model="input" placeholder="请输入内容"></el-input>
+        <el-input v-model="input" placeholder="请输入内容" v-on:focus="toSearch"></el-input>
       </div>
       <div slot="right">登录</div>
     </nav-bar>
@@ -192,6 +191,9 @@ export default {
       this.$router.go(-1)
       // window.history.go(-1)
       // console.log(document.referrer);
+    },
+    toSearch(){
+      this.$router.push('/search')
     }
   },
   mounted() {

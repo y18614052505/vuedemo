@@ -7,7 +7,8 @@ const Category = () => import("views/category/Category")
 const Cart = () => import("views/cart/Cart")
 const Proflie = () => import("views/profile/Profile")
 const Jx = () => import("views/jx/Jx")
-
+const Search = () => import("views/search/search")
+const Details = ()=> import('views/details/details')
 const routes = [
   {
     path: '',
@@ -53,7 +54,14 @@ const routes = [
     mata: {
       title: "搜索"
     },
-    template: { template: '<div>foo</div>' }
+    component: Search
+  },
+  {
+    path:'/details/id',
+    meta:{
+      title:"详情"
+    },
+    component:Details
   }
 ]
 

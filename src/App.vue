@@ -1,16 +1,20 @@
 <template>
   <div id="app">
     <router-view/>
-    <main-tab-bar></main-tab-bar>
+    <main-tab-bar v-if='isTabBar'></main-tab-bar>
     
-  </div>
-  
+  </div> 
 </template>
 
 <script>
   import MainTabBar from 'components/contents/MainTabbar/MainTabbar'
   export default {
     name:"app",
+    data(){
+      return {
+        isTabBar:true
+      }
+    },
     components:{
       MainTabBar
     }
