@@ -4,10 +4,11 @@
       GoodsListItem:true, 
       transverse:isDirection,
       column:!isDirection
-      }" @click="toDetails(citem)"
+      }"
+    @click="toDetails(citem)"
   >
     <a href="javascript:;">
-      <img :src="itemPath+'/jd_category/'+citem.c3_img" />
+      <img :src="itemPath+'/jd_category/'+ citem.c3_img " @load="loadMore" />
       <span>{{citem.c3_name}}</span>
     </a>
   </div>
@@ -30,24 +31,37 @@ export default {
     isDirection: {
       type: Boolean, //true 代表独占一行 false 代表不独占一行
       default: true
+    },
+    bus:{
+      type:String,
+      default:""
     }
   },
   data() {
-    return {};
+    return {
+      num: 0
+    }
   },
   components: {},
   computed: {
     //如果想要计算宽度，则需要在计算属性中，进行宽度/数量的公式
   },
   created() {},
-  mounted() {},
+  mounted() {
+    console.log(this.bus);
+  },
   methods: {
-      toDetails(item){
-          console.log(item);  
-          this.$router.push('/details/'+item.c3_id)
-      }
+    toDetails(item) {
+      console.log(item);
+      this.$router.push("/details/" + item.c3_id);
+    },
+    loadMore() {
+      //默认情况下。在vue中时不存在有bus总线，使用的时候，需要我们先定义$bus总线
+      // if(!this.bus) return 
+      this.$bus.$emit(this.bus)
+    }
   }
-};
+}
 </script>
 <style scoped>
 .GoodsListItem {
@@ -58,32 +72,32 @@ export default {
   width: 100%;
 }
 .GoodsListItem.transverse a {
-    width:100%;
-    display:flex;
-    flex-wrap: wrap;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
-.GoodsListItem.transverse a img{
-    width: 40%;
+.GoodsListItem.transverse a img {
+  width: 40%;
 }
-.GoodsListItem.transverse a span{
-    display: block;
-    width:60%;
-    background: pink;
-    text-align:left;
+.GoodsListItem.transverse a span {
+  display: block;
+  width: 60%;
+  background: pink;
+  text-align: left;
 }
 .GoodsListItem.column {
   /*column-- 多列---一行有2个 */
   width: 48%;
   margin: 0 1%;
 }
-.GoodsListItem.column img{
-    display:block;
-    width:50%;
-    margin:10px auto;
+.GoodsListItem.column img {
+  display: block;
+  width: 50%;
+  margin: 10px auto;
 }
-.GoodsListItem.column span{
-    text-align:left;
-    display: block;
-    line-height:40px;
+.GoodsListItem.column span {
+  text-align: left;
+  display: block;
+  line-height: 40px;
 }
-</style>
+</style>>style>

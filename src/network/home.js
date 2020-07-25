@@ -23,7 +23,16 @@ export function get_jd_category_max(page) {
         params: {
             page:page,
             // c1_id:   c2_id  
-
         }
     })
 }
+// export function get_goods(data){
+//     return request({
+//         url:'/vuedemo/get_goods',
+//         params:{
+//             like:data,
+//             order:['销量','有货'],
+//             '升序/降序':'xxx',
+//         }
+//     })
+// }

@@ -82,8 +82,8 @@ export default {
             let rotationEl = document.querySelector(`#${id} .rotation`)
             //获取页面的slide元素
             let slideEls = rotationEl.querySelectorAll(".slide")
-            console.log(rotationEl);
-            console.log(slideEls)
+            // console.log(rotationEl);
+            // console.log(slideEls)
             //保存个数
             this.slideCount = slideEls.length
             //如果图片的数量>1 则操作图片
@@ -101,7 +101,7 @@ export default {
                 this.totalWidth = rotationEl.offsetWidth
                 // 对象赋值  两个对象用了同一个地址
                 this.rotationStyle = rotationEl.style
-                console.log(this.totalWidth);
+                // console.log(this.totalWidth);
             }
             this.setTransform(-this.totalWidth)
         },
@@ -134,7 +134,7 @@ export default {
             this.scrolling = false
         },
         stopTimer(){
-            console.log("停止定时器")
+            // console.log("停止定时器")
             clearInterval(this.playTimer)
         },
         //判断当前图片的位置(校正位置)
@@ -199,7 +199,7 @@ export default {
             //移动到正确的位置
             this.scrollPosition(-this.currentIndex * this.totalWidth)
             //开启定时器
-            console.log("开启定时器");
+            // console.log("开启定时器");
             this.startTimer()
         }
     }

@@ -1,9 +1,9 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav-bar" @leftBarClick="toCategory">
-      <div slot="left">分类</div>
+      <div slot="left-hand">分类</div>
       <div slot="center">
-        <el-input v-model="input" placeholder="请输入内容" v-on:focus="toSearch"></el-input>
+        <el-input v-model="input" placeholder="请输入内容" v-on:focus="toKeywords"></el-input>
       </div>
       <div slot="right">登录</div>
     </nav-bar>
@@ -22,49 +22,19 @@
       <!-- 功能视图 -->
       <home-feature :cfeature="feature"></home-feature>
       <hr />
-
+      <div style="height:40px;">{{price | changePrice('$')}}</div>
       <div>
-        <button style="width:100%" @click="changeDirection">
-          改变商品数据排列
-        </button>
+        <button style="width:100%" @click="changeDirection">改变商品数据排列</button>
       </div>
       <div class="tabContent">
         <div class="tabTitle">
           <button @click="tabClick('recommend')">recommend</button>
           <button @click="tabClick('news')">news</button>
-          
         </div>
-        <!-- <div>
-          {{showGoodsList}}
-          <hr/>
-        </div> -->
-
-        <goods-list :cgoods='showGoodsList' :cpath="path" :cisDirection='parentDirection'></goods-list>
-        <!-- <goods-list1 :cgoods='goods' :cpath="path"></goods-list1> -->
-
-
-
-
-
-
-
-
-
-
-        <!-- <div v-for="(item,key) in goods" :key="key">
-          <ul v-if='tabCurrentType == key'>
-            <li v-for="(i,index) in item.list" :key="index">
-              <a href="javascript:;">
-                <img :src="path+i.c3_img"/>
-                <span>{{i.c3_name}}</span>
-              </a>
-              <hr/>
-            </li>
-          </ul>
-        </div>-->
+        <goods-list :cgoods="showGoodsList" :cpath="path" :cisDirection="parentDirection" :bus="bus"></goods-list>
       </div>
     </scroll>
-    <a class="toTop" @click="toTop" v-if="isShowBackTop">返回顶部</a>
+    <a class="toTop" @click="toTop" v-if="isShowBackTop"></a>
   </div>
 </template>
 
@@ -79,7 +49,7 @@ import GoodsList from "components/contents/goods/GoodsList";
 import HomeRotation from "./childComp/HomeRotation";
 import HomeFeature from "./childComp/HomeFeature";
 // import {getHomeBanner} from "network/home"
-
+import {debounce} from 'common/utils'
 //引入其他文件
 //引入网络请求模块部分组件/方法
 import { getHomeBanner, getFeature, get_jd_category_max } from "network/home";
@@ -107,7 +77,13 @@ export default {
         }
       },
       tabCurrentType: "recommend",
-      parentDirection:true,
+      parentDirection: true,
+      isLoadmore: true,
+      price: "190.12",
+      category: "礼品/美妆礼品",
+      category1: "礼品",
+      n:0,
+      bus:"goodsImageLoad"
     };
   },
   components: {
@@ -127,20 +103,18 @@ export default {
     // var arr = [1,2,3,4,5]
     // this.filterFeatrue(100)
     this.getGoodsMax("recommend");
-    this.getGoodsMax('news');
+    this.getGoodsMax("news");
   },
-  computed:{
-    showGoodsList(){
-      return this.goods[this.tabCurrentType].list
+  computed: {
+    showGoodsList() {
+      return this.goods[this.tabCurrentType].list;
     }
   },
   methods: {
     //去banner的数据
     getHomeBanner() {
       getHomeBanner().then(res => {
-        // console.log(res);
-        this.banners = res;
-        // this.banners = {...res}//解构赋值
+        this.banners = res.data;
       });
     },
     //定义功能视图的数据
@@ -148,17 +122,14 @@ export default {
       let that = this;
       getFeature().then(res => {
         // console.log(res);
-        let arr = res;
+        if (res.code != 200) return;
+        let arr = res.data;
         for (let i = 0; i < arr.length / 10; i++) {
           that.feature.push([]);
-          // arr.map((item,index)=>{
-          //   parseInt(index/10) == i ? that.feature[i].push(item):""
-          // })
           arr.forEach((item, index) => {
             parseInt(index / 10) == i ? that.feature[i].push(item) : "";
           });
         }
-        // console.log(this.feature);
       });
     },
     HomeScroll(position) {
@@ -177,30 +148,45 @@ export default {
       get_jd_category_max(page).then(res => {
         // console.log(res);
         this.goods[type].page += 1;
-        this.goods[type].list.push(...res);
-        this.$refs.scrollCom.scroll.finishPullUp();
+        this.goods[type].list.push(...res.data);
+        this.$refs.scrollCom.finishPullUp();
+        // this.$refs.scrollCom.refresh()
+        this.isLoadmore = true; //获取到一次数据后isLoadmore 才变为true，才能进行下一次请求
       });
     },
     //加载更多数据
     loadMore() {
+      if (!this.isLoadmore) return; //如果this.isLoadmore 则代表上一次请求没完成。不能下一次请求
+      this.isLoadmore = false;
       this.getGoodsMax(this.tabCurrentType);
     },
     //点击切换
     tabClick(type) {
       this.tabCurrentType = type;
-      // if (!this.goods[type].list.length) {
-      //   this.getGoodsMax(type);
-      // }
     },
     toCategory() {
       this.$router.push("/category");
     },
-    toSearch() {
+    toKeywords() {
       console.log("focus");
-      this.$router.push("/search");
+      this.$router.push("/keywords");
     },
-    changeDirection(){
-      this.parentDirection = !this.parentDirection
+    changeDirection() {
+      this.parentDirection = !this.parentDirection;
+    }
+  },
+  mounted() {
+    const refresh = debounce(this.$refs.scrollCom.refresh,50)
+    this.$bus.$on(this.bus, () => {
+      console.log('被执行');
+      //当图片加载完成 在GoodsListItem中通过$bus总线 执行 当前方法 goodsImageLoad ,
+      //然后对BScroll  进行重新计算高度
+      refresh()  
+    });
+  },
+  filters: {
+    changePrice: (data, str) => {
+      return str + data;
     }
   }
 };
@@ -232,7 +218,12 @@ export default {
   position: absolute;
   bottom: 100px;
   right: 5px;
-  background-color: red;
+  /* background-color: red; */
+  background-image: url(~assets/img/common/top.png);
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-size: 100%;
 }
 .tabContent {
   display: flex;

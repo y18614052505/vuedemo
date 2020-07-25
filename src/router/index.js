@@ -8,6 +8,7 @@ const Cart = () => import("views/cart/Cart")
 const Proflie = () => import("views/profile/Profile")
 const Jx = () => import("views/jx/Jx")
 const Search = () => import("views/search/search")
+const KeyWords = () => import("views/search/keywords")
 const Details = ()=> import('views/details/details')
 const routes = [
   {
@@ -57,6 +58,13 @@ const routes = [
     component: Search
   },
   {
+    path: '/keywords',
+    mata: {
+      title: "搜索"
+    },
+    component: KeyWords
+  },
+  {
     path:'/details/id',
     meta:{
       title:"详情"
@@ -76,19 +84,11 @@ routers.beforeEach((to, from, next) => {
     return
   } else {
     console.log('走了否则');
-
-    console.log()
-    console.log('beforeEach');
-    console.log(from);
-    console.log(to);
   }
   // document.title = to.matched[0].meta.title
   next()
 })
-routers.afterEach((to, from) => {
-  console.log(this);
-  console.log('afterEach');
-  console.log(from);
-  console.log(to);
-})
+// routers.afterEach((to, from) => {
+
+// })
 export default routers

@@ -40,9 +40,9 @@ export default {
   },
   methods: {
     handleDom(id) {
-      console.log(this.iscopy);
-      console.log(this.divID);
-      console.log(id);
+      // console.log(this.iscopy);
+      // console.log(this.divID);
+      // console.log(id);
       let divEl = document.querySelector(`#${id}`);
       divEl.style.position = "relative";
       divEl.style.overflow = "hidden";
@@ -61,13 +61,13 @@ export default {
       }
       this.itemLength = itemEls.length;
       this.featureWidth = featureEl.offsetWidth;
-      console.log(this.itemLength);
-      console.log(this.featureWidth);
+      // console.log(this.itemLength);
+      // console.log(this.featureWidth);
       this.featureStyle = featureEl.style;
       this.setTransform(this.currentIndex  * - this.featureWidth);
     },
     setTransform(position) {
-      console.log(position, "--------------");
+      // console.log(position, "--------------");
       this.featureStyle.transform = `translateX(${position}px)`;
       this.featureStyle["-webkit-transform"] = `translateX(${position}px)`;
       this.featureStyle["-ms-transform"] = `translateX(${position}px)`;
@@ -94,11 +94,11 @@ export default {
       }, this.animateDuration);
     },
     touchStart(e) {
-      console.log("touchStart被执行");
+      // console.log("touchStart被执行");
       if (this.scrolling) return;
       //获取用户拖拽按下点的x坐标
       this.startX = e.touches[0].pageX;
-      console.log(this.startX);
+      // console.log(this.startX);
     },
     touchMove(e) {
       this.currentX = e.touches[0].pageX;
@@ -173,7 +173,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.handleDom(this.divID);
-      console.log(this.iscopy);
+      // console.log(this.iscopy);
     }, 500);
   }
 };

@@ -8,6 +8,8 @@
       <div slot="right"></div>
     </nav-bar>
       <h1>search</h1>
+
+      
   </div>
 </template>
 

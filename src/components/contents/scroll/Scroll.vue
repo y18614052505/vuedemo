@@ -34,7 +34,7 @@ export default {
       probeType: this.probeType,
       pullUpLoad: this.pullUpLoad
     });
-    console.log(this.probeType);
+    // console.log(this.scroll);
     if (this.probeType == 2 || this.probeType == 3) {
       // console.log("被执行");
       this.scroll.on("scroll", position => {
@@ -46,7 +46,7 @@ export default {
     //当父组件允许加载更多时，才能监听滚动条是否滚动到页面底部
     if (this.pullUpLoad) {
       this.scroll.on("pullingUp", () => {
-        console.log("滚动到页面底部了");
+        // console.log("滚动到页面底部了");
         this.$emit('pullingUp') 
       });
     }
@@ -54,11 +54,14 @@ export default {
   methods: {
     //定义跳转页面指定位置事件
     scrollTo(x, y, time) {
-      this.scroll.scrollTo(x, y, time);
+      this.scroll && this.scroll.scrollTo(x, y, time)
+    },
+    refresh(){
+      this.scroll && this.scroll.refresh()
+    },
+    finishPullUp(){
+      this.scroll && this.scroll.finishPullUp()
     }
-    //   aaa(){
-    //       console.log('加载到页面底部了');
-    //   }
   }
 };
 </script>

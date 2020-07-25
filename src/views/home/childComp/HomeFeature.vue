@@ -38,7 +38,7 @@ export default {
         }
     },
     mounted(){
-        console.log(this.cfeature);
+        // console.log(this.cfeature);
     },
     components:{
         Feature,

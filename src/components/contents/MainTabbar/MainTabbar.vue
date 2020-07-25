@@ -46,8 +46,8 @@ export default {
     return {
       urlpath:"http://106.12.85.17:8090/public/image/tabbar/",
       tabbarstyle: {
-        bgcolor: "pink",
-        activeBG: "blue",
+        bgcolor: "white",
+        activeBG: "white",
         color: "black",
         activeTxt: "red"
       },
@@ -65,7 +65,7 @@ export default {
     getTabBar() {
       // return 
       getTabBar().then(res=>{
-        this.tabBarArr = [...res]
+        this.tabBarArr = [...res.data]
       })
     }
   }

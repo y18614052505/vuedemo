@@ -1,6 +1,6 @@
 <template>
   <div class="GoodsList">
-      <goods-list-item v-for="(item,key) in cgoods" :key="key" :citem="item" :itemPath="path" :isDirection ='cisDirection'></goods-list-item>
+      <goods-list-item v-for="(item,key) in cgoods" :key="key" :citem="item" :itemPath="path" :isDirection ='cisDirection' :bus="bus"></goods-list-item>
   </div>
 </template>
 <script>
@@ -25,6 +25,10 @@ export default {
     cisDirection:{
         type:Boolean,
         dufault:true
+    },
+    bus:{
+      type:String,
+      default:''
     }
   },
   data() {

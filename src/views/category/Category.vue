@@ -1,9 +1,9 @@
 <template>
   <div>
     <nav-bar class="home-nav-bar">
-      <div slot="left" @click='back'>&lt;</div>
+      <div slot="left" @click="back">&lt;</div>
       <div slot="center">
-        <el-input v-model="input" placeholder="请输入内容" v-on:focus="toSearch"></el-input>
+        <el-input v-model="input" placeholder="请输入内容" v-on:focus="toKeywords"></el-input>
       </div>
       <div slot="right">登录</div>
     </nav-bar>
@@ -85,10 +85,14 @@ export default {
       path: "http://106.12.85.17:8090/public/image/jd_category/",
       shophistory: [1], // 已经浏览的记录  在发生页面跳转后，在路由守卫中记录当前请求的数据，并在页面跳转前，存储到shophistory中(把整个three中找到的那条数据存进来)
       input: "",
+      bus:"catagoryImageLoad"
     };
   },
-  components: { 
-    NavBar, TabControl, Scroll },
+  components: {
+    NavBar,
+    TabControl,
+    Scroll
+  },
   created() {
     //vue实例在创建时的钩子函数
     //页面在创建的时候，我们需要请求数据
@@ -137,7 +141,6 @@ export default {
       console.log(this.secMenuList);
       //传递进来的参数用于判断按钮是否被选中
       this.controlIndex = index;
-      console.log(index);
       //回传数据给子组件 / 修改子组件的数据
       //(ref = categoryControl 的组件的值)
       this.$refs.categoryControl.itemIndex = index;
@@ -171,39 +174,38 @@ export default {
     get_jd_category_one() {
       get_jd_category_one().then(res => {
         // console.log(res);
-        if (res) this.jd_category_one.push(...res);
+        if (res.code == 200 && res.data) this.jd_category_one.push(...res.data);
       });
     },
     get_jd_category_two() {
       get_jd_category_two().then(res => {
         // console.log(res);
-        if (res) this.jd_category_two.push(...res);
+        if (res.code == 200 && res.data) this.jd_category_two.push(...res.data);
       });
     },
     get_jd_category_three() {
       get_jd_category_three().then(res => {
         // console.log(res);
-        if (res) this.jd_category_three.push(...res);
+        if (res.code == 200 && res.data)
+          this.jd_category_three.push(...res.data);
         this.tabControlClick(this.controlIndex);
       });
     },
-    back(){
-      this.$router.go(-1)
+    back() {
+      this.$router.go(-1);
       // window.history.go(-1)
       // console.log(document.referrer);
     },
-    toSearch(){
-      this.$router.push('/search')
+    toKeywords() {
+      this.$router.push("/keywords");
     }
   },
   mounted() {
-    // console.log(this.$refs.one);
-    // this.scroll = new BScroll(document.querySelector(".one"),{
-    //   click:true
-    // });
-    // this.scroll = new BScroll(this.$refs.two,{
-    //   click:true
-    // });
+    this.$bus.$on(this.bus, () => {
+      //当图片加载完成 在GoodsListItem中通过$bus总线 执行 当前方法 goodsImageLoad ,
+      //然后对BScroll  进行重新计算高度
+      this.$refs.scrollCom.refresh();
+    }); 
   }
 };
 </script>
