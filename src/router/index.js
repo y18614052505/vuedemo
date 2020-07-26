@@ -10,6 +10,7 @@ const Jx = () => import("views/jx/Jx")
 const Search = () => import("views/search/search")
 const KeyWords = () => import("views/search/keywords")
 const Details = ()=> import('views/details/details')
+const Login = ()=> import('views/login/login')
 const routes = [
   {
     path: '',
@@ -70,6 +71,13 @@ const routes = [
       title:"详情"
     },
     component:Details
+  },
+  {
+    path:'/login',
+    meta:{
+      title:"登录"
+    },
+    component:Login
   }
 ]
 
@@ -77,18 +85,4 @@ const routers = new Router({
   routes,
   mode:'history',//可以修改模式
 })
-routers.beforeEach((to, from, next) => {
-  console.log(from.path);
-  if (to.path == '/cart') {
-    console.log("走了成功");
-    return
-  } else {
-    console.log('走了否则');
-  }
-  // document.title = to.matched[0].meta.title
-  next()
-})
-// routers.afterEach((to, from) => {
-
-// })
 export default routers

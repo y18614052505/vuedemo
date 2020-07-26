@@ -15,6 +15,15 @@
 import NavBar from "components/common/navbar/NavBar";
 export default {
   name: "search",
+  beforeRouteEnter(to,from,next){
+    //组件创建前调用的守卫
+    next()
+  },
+  created() {
+    console.log(this);
+    console.log(this.$root);
+    this.$root.$children[0].is_jd_TabBar = false // 也可以在页面渲染的时候 改变is_jd_TabBar的值
+  },
   data() {
     return {
       input: ""
@@ -24,26 +33,23 @@ export default {
     NavBar
   },
   computed: {},
-  created() {
-    //   isTabbar
-  },
-  mounted() {
-    //当前组件的根组件的第一个子元素的 isTabBar
-    this.$root.$children[0].isTabBar = false
-  },
-  beforeRouteLeave(to, from, next) {
-    // console.log(this)
-    // console.log(this.$root)
-    // console.log(this.$root.$children[0])
-    // console.log(this.$root.$children[0].isTabBar)
-    this.$root.$children[0].isTabBar = true
-    next()
-  },
   methods: {
     toSearch() {
       this.$router.push("/search");
     }
-  }
+  },
+  mounted(){
+    // this.$root.$children[0].is_jd_TabBar = false
+  },
+  beforeRouteUpdate(to,from,next){
+    //路由改变。组件被复用。调用的守卫
+    next()
+  },
+  beforeRouteLeave(to,from,next){
+    //组件导航离开，调用的守卫
+    this.$root.$children[0].is_jd_TabBar = true
+    next()
+  },
 };
 </script>
 <style scoped>

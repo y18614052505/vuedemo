@@ -85,7 +85,6 @@ export default {
       path: "http://106.12.85.17:8090/public/image/jd_category/",
       shophistory: [1], // 已经浏览的记录  在发生页面跳转后，在路由守卫中记录当前请求的数据，并在页面跳转前，存储到shophistory中(把整个three中找到的那条数据存进来)
       input: "",
-      bus:"catagoryImageLoad"
     };
   },
   components: {
@@ -200,13 +199,6 @@ export default {
       this.$router.push("/keywords");
     }
   },
-  mounted() {
-    this.$bus.$on(this.bus, () => {
-      //当图片加载完成 在GoodsListItem中通过$bus总线 执行 当前方法 goodsImageLoad ,
-      //然后对BScroll  进行重新计算高度
-      this.$refs.scrollCom.refresh();
-    }); 
-  }
 };
 </script>
 <style scoped>

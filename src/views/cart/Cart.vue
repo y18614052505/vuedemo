@@ -4,7 +4,10 @@
 
 <script>
 export default {
-  name:"Cart"
+  name:"Cart",
+  created(){
+    if(!this.$root.$children[0].userId) this.$router.push('/login')
+  }
 }
 </script>
 <style scoped>

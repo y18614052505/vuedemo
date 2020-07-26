@@ -48,7 +48,6 @@ export default {
   },
   created() {},
   mounted() {
-    console.log(this.bus);
   },
   methods: {
     toDetails(item) {
@@ -57,8 +56,8 @@ export default {
     },
     loadMore() {
       //默认情况下。在vue中时不存在有bus总线，使用的时候，需要我们先定义$bus总线
-      // if(!this.bus) return 
-      this.$bus.$emit(this.bus)
+      if(!this.bus) return 
+      this.$bus.$emit(this.bus)  
     }
   }
 }

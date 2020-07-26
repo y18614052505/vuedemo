@@ -3,7 +3,8 @@
     <!-- <keep-alive> -->
       <router-view />
     <!-- </keep-alive> -->
-    <main-tab-bar v-if="isTabBar"></main-tab-bar>
+    <main-tab-bar v-if="is_jd_TabBar"></main-tab-bar>
+    <main-tab-bar v-if="is_jx_TabBar"></main-tab-bar>
   </div>
 </template>
 
@@ -13,7 +14,9 @@ export default {
   name: "app",
   data() {
     return {
-      isTabBar: true
+      is_jd_TabBar: true,
+      is_jx_TabBar:false,
+      userId:null
     };
   },
   components: {

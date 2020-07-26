@@ -47,20 +47,22 @@ export default {
     if (this.pullUpLoad) {
       this.scroll.on("pullingUp", () => {
         // console.log("滚动到页面底部了");
-        this.$emit('pullingUp') 
+        this.$emit("pullingUp");
       });
     }
+    console.log(this.scroll);
   },
   methods: {
     //定义跳转页面指定位置事件
     scrollTo(x, y, time) {
-      this.scroll && this.scroll.scrollTo(x, y, time)
+      this.scroll && this.scroll.scrollTo(x, y, time);
     },
-    refresh(){
-      this.scroll && this.scroll.refresh()
+    refresh() {
+      //代理better-scroll的refresh方法
+      this.scroll && this.scroll.refresh();
     },
-    finishPullUp(){
-      this.scroll && this.scroll.finishPullUp()
+    finishPullUp() {
+      this.scroll && this.scroll.finishPullUp();
     }
   }
 };

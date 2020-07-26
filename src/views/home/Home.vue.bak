@@ -84,6 +84,7 @@ export default {
     NavBar,
     Scroll,
     GoodsList,
+    // GoodsList1,
     HomeRotation,
     HomeFeature
   },
@@ -114,7 +115,8 @@ export default {
     getFeature() {
       let that = this;
       getFeature().then(res => {
-        if (res.code != 200) return console.log("getFeature没有请求到数据");
+        // console.log(res);
+        if (res.code != 200) return;
         let arr = res.data;
         for (let i = 0; i < arr.length / 10; i++) {
           that.feature.push([]);
