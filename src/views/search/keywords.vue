@@ -48,7 +48,7 @@ export default {
   beforeRouteLeave(to,from,next){
     //组件导航离开，调用的守卫
     this.$root.$children[0].is_jd_TabBar = true
-    next()
+    next() 
   },
 };
 </script>
