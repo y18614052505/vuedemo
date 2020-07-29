@@ -16,7 +16,7 @@
 <script>
 import NavBar from "components/common/navbar/NavBar";
 export default {
-  name: 'search',
+  name: 'Search',
   data(){
     return {}
   },

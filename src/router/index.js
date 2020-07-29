@@ -3,14 +3,15 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 const Home = () => import("views/home/Home")
+const FeaturePage = () => import("views/home/FeaturePage")
 const Category = () => import("views/category/Category")
 const Cart = () => import("views/cart/Cart")
 const Proflie = () => import("views/profile/Profile")
 const Jx = () => import("views/jx/Jx")
-const Search = () => import("views/search/search")
-const KeyWords = () => import("views/search/keywords")
-const Details = ()=> import('views/details/details')
-const Login = ()=> import('views/login/login')
+const Search = () => import("views/search/Search")
+const KeyWords = () => import("views/search/Keywords")
+const Details = () => import('views/details/Details')
+const Login = () => import('views/login/Login')
 const routes = [
   {
     path: '',
@@ -21,7 +22,14 @@ const routes = [
     mata: {
       title: "首页"
     },
-    component: Home
+    component: Home,
+    children: [
+      {
+        path: 'feature',
+        name: 'feature',
+        component:FeaturePage
+      }
+    ]
   },
   {
     path: "/category",//分类
@@ -61,28 +69,28 @@ const routes = [
   {
     path: '/keywords',
     mata: {
-      title: "搜索"
+      title: "关键字"
     },
     component: KeyWords
   },
   {
-    path:'/details/id',
-    meta:{
-      title:"详情"
+    path: '/details/:id',
+    meta: {
+      title: "详情"
     },
-    component:Details
+    component: Details,
   },
   {
-    path:'/login',
-    meta:{
-      title:"登录"
+    path: '/login',
+    meta: {
+      title: "登录"
     },
-    component:Login
+    component: Login
   }
 ]
 
 const routers = new Router({
   routes,
-  mode:'history',//可以修改模式
+  mode: 'history',//可以修改模式
 })
 export default routers

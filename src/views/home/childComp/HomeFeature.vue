@@ -8,12 +8,9 @@
                     <span>{{i.Title}}</span>
                 </a>
             </li>
-            <li v-if=" index == cfeature.length - 1  && cfeature.length%10 != 0">
-                <a href="">
-                    <img :src="path+'20.png'" alt="">
-                    <span>全部</span>
-                </a>
-
+            <li v-if=" index == cfeature.length - 1  && cfeature.length%10 != 0" v-on:click="featureAll()">
+                <img :src="path+'20.png'" alt="">
+                <span>全部</span>
             </li>
         </feature-item>
     </feature>
@@ -43,6 +40,11 @@ export default {
     components:{
         Feature,
         FeatureItem
+    },
+    methods:{
+        featureAll(){
+            this.$emit('cfeatureAll')
+        }
     }
 }
 </script>

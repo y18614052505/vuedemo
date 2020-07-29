@@ -50,18 +50,19 @@ export default {
         this.$emit("pullingUp");
       });
     }
-    console.log(this.scroll);
+    // console.log(this.scroll);
   },
   methods: {
+    //注意：在组件内定义方法时，尽量不使用其他插件中已经很定义好的方法名，容易冲突
     //定义跳转页面指定位置事件
-    scrollTo(x, y, time) {
+    scrollTo1(x, y, time) {
       this.scroll && this.scroll.scrollTo(x, y, time);
     },
-    refresh() {
+    refreshScroll() {
       //代理better-scroll的refresh方法
       this.scroll && this.scroll.refresh();
     },
-    finishPullUp() {
+    finishpullup() {
       this.scroll && this.scroll.finishPullUp();
     }
   }
