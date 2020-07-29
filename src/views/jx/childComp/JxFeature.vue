@@ -31,6 +31,9 @@ export default {
             }
         }
     },
+    created(){
+        console.log(this.cfeature);
+    },
     data(){
         return {
             path:"http://106.12.85.17:8090/public/image/feature/",

@@ -5,12 +5,19 @@
       transverse:isDirection,
       column:!isDirection
       }"
-    @click="toDetails(citem)"
   >
-    <a href="javascript:;">
-      <img :src="itemPath+'/jd_category/'+ citem.c3_img " @load="loadMore" />
-      <span>{{citem.c3_name}}</span>
-    </a>
+    <!-- @click="toDetails(citem)" -->
+    <!-- <a href="javascript:;"> -->
+    <router-link tag='a' :to="'/details/'+citem.id">
+      <img :src="itemPath+'/goods/'+ citem.img_cover " @load="loadMore" />
+      <span>
+        {{citem.name}}
+        <br>
+        {{citem.money_now}}
+        <br>
+      </span>
+    </router-link>
+    <!-- </a> -->
   </div>
 </template>
 
@@ -52,7 +59,7 @@ export default {
   methods: {
     toDetails(item) {
       console.log(item);
-      this.$router.push("/details/" + item.c3_id);
+      this.$router.push("/details/" + item.id);
     },
     loadMore() {
       //默认情况下。在vue中时不存在有bus总线，使用的时候，需要我们先定义$bus总线
@@ -74,6 +81,9 @@ export default {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  text-decoration: none;
+  color:black;
+  line-height:20px;
 }
 .GoodsListItem.transverse a img {
   width: 40%;

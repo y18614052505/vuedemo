@@ -10,9 +10,15 @@
     </div>
     <!-- 放小圆点  索引指示器-->
     <div class="indicator" v-if="showIndicator && slideCount>1">
+        <!-- 可以放置index索引小圆点图标，  也可以插入一个按钮，用于播放视频 -->
         <slot name="indicator">
             <div v-for="(item,index) in slideCount" :key="index" class="round-item" :class="{active:index === currentIndex - 1}">
             </div>
+        </slot>
+    </div>
+    <div>
+        <slot name='num'>
+            <!-- 显示图片数量  1/6 -->
         </slot>
     </div>
   </div>

@@ -14,6 +14,7 @@
     "element-ui": "^2.13.2",
     "less": "^3.12.0",
     "less-loader": "^6.2.0",
+    "mint-ui": "^2.2.13",
     "postcss-loader": "^3.0.0",
     "style-loader": "^1.2.1",
     "vue": "^2.6.11",

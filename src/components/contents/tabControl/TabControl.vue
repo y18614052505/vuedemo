@@ -1,28 +1,14 @@
 <template>
-  <div :id="controlId" class="tabControl">
-    <div>
-      <slot></slot>
-    </div>
+  <div :id="controlId" ref="tabControl" class='tabControl'>
     <div
-      v-for="item in titleArr"
-      :key="item.c1_id"
-      @click="itemClick(item.c1_id)"
-      :class="{active:itemIndex == item.c1_id}"
+      v-for="(item,index) in titleArr"
+      :key="index"
+      @click="itemClick(index)"
+      :class="{active:itemIndex == index}"
     >
-      <span>{{item.c1_name}}</span>
-      --
-      <slot name="subName">{{item.c1_id}}</slot>
+      <span>{{item}}</span>
     </div>
   </div>
-  <!-- <ul :id="controlId" class="tabControl">
-    <li v-for="item in titleArr" :key="item.c1_id">
-      <div>
-        <span>{{item.c1_name}}</span>
-        --
-        <slot>{{item.c1_id}}</slot>
-      </div>
-    </li>
-  </ul>-->
 </template>
 
 <script>
@@ -43,6 +29,10 @@ export default {
       //排列的方向
       type: String,
       default: "transverse" //纵向portrait  横向transverse
+    },
+    column:{
+      type:Number,
+      default:1
     }
   },
   data() {
@@ -53,8 +43,22 @@ export default {
   components: {},
   computed: {},
   created() {},
-  mounted() {},
+  mounted() {
+    this.handleDom()
+  },
   methods: {
+    handleDom(){
+      // let tabControl =this.$refs.tabControl;
+      let tabControl = document.querySelector(`#${this.controlId}`);
+      console.log(tabControl);
+      let parentWidth = tabControl.offsetWidth;
+      console.log(parentWidth);
+      let divItem = tabControl.querySelectorAll('div')
+      console.log(divItem);
+      divItem.forEach(item=>{
+        item.style.width= parentWidth/this.column-20+"px"
+      })
+    },
     itemClick(index) {
       //在子组件中如果想使用父组件传递过来的事件，需要通过使用$emit
         this.$emit('tabClick',index)
@@ -69,13 +73,20 @@ export default {
 <style lang='less' scoped>
 // 如是想要使用less 建议 去 vue ui视图界面中添加
 .tabControl {
-  width: 100%;
+  width: 98vw;
   font-size: 12px;
   line-height: 40px;
+  padding:0 1vw;
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color:white;
 }
 .tabControl div {
   border-bottom: 1px solid #555555;
+  border-top: 1px solid #555555;
   height: 40px;
+  border-radius:20px;
 }
 .active {
   color: red;

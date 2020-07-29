@@ -9,8 +9,8 @@
     </nav-bar>
     <div id="category">
       <scroll class="one" ref="one">
-        <tab-control
-          :controlId="tabControlId"
+        <feature-tab-control
+          :featureControlId="tabControlId"
           :titleArr="jd_category_one"
           @tabClick="tabControlClick"
           ref="categoryControl"
@@ -20,7 +20,7 @@
             --
             <span>0</span>
           </div>
-        </tab-control>
+        </feature-tab-control>
       </scroll>
       <scroll class="two" ref="two">
         <div>
@@ -61,7 +61,7 @@
 <script>
 //引入公共组件
 import NavBar from "components/common/navbar/NavBar";
-import TabControl from "components/contents/tabControl/TabControl";
+import FeatureTabControl from "components/contents/featureTabControl/FeatureTabControl";
 
 import Scroll from "components/contents/scroll/Scroll";
 //引入网络模块的部分功能/方法
@@ -89,7 +89,7 @@ export default {
   },
   components: {
     NavBar,
-    TabControl,
+    FeatureTabControl,
     Scroll
   },
   created() {

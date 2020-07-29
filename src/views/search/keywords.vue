@@ -14,7 +14,7 @@
 <script>
 import NavBar from "components/common/navbar/NavBar";
 export default {
-  name: "search",
+  name: "Keywords",
   beforeRouteEnter(to,from,next){
     //组件创建前调用的守卫
     next()

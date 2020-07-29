@@ -37,10 +37,6 @@ export default {
   components: {
     GoodsListItem
   },
-  computed: {},
-  created() {},
-  mounted() {},
-  methods: {}
 };
 </script>
 <style scoped>
