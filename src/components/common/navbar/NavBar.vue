@@ -8,6 +8,7 @@
 </template>
 
 <script>
+
 export default {
     name:"navbar",
     methods:{
@@ -26,7 +27,7 @@ export default {
         height:44px;
         line-height: 44px;
         text-align: center;
-        box-shadow: 0 1px 1px rgba(100,100,100,.2);
+        /* box-shadow: 0 1px 1px rgba(100,100,100,.2); */
     }
     .left,.right{
         width:15vw;

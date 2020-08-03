@@ -42,12 +42,12 @@
             <el-dropdown-item command="/profile" disabled>浏览记录</el-dropdown-item>
             <el-dropdown-item command="/profile" divided>我的关注</el-dropdown-item>
             <el-dropdown-item command="/profile" divided>分享</el-dropdown-item>
-          </el-dropdown-menu>
+          </el-dropdown-menu> 
         </el-dropdown>
       </div>
     </nav-bar>
     <scroll class="detailsScroll" ref="DetailsScroll" @parentScroll="getScrollY" :probeType="3">
-      <div style="height:800px;" >
+      <div style="height:800px;">
         <details-rotation :dfeature="goodsImg"></details-rotation>
       </div>
       <div style="height:800px;">评价组件</div>
@@ -140,18 +140,17 @@ export default {
       //   this.tabCenter.style.opacity = `1`;
       //   this.tabCenter.style.filter = `opacity(100)`;
       // }
-      if (-position.y < 100 && -position.y > 0 && this.tabCenter) {
-        this.$refs.detailsNavBar.$el.style.background = `rgba(255,255,255,${
-          -position.y / 100
-        })`;
-        console.log(this.$refs.detailsNavBar);
-        this.tabCenter.style.display='flex';
-        this.tabCenter.style.opacity = `${-position.y / 100}`;
-        this.tabCenter.style.filter = `opacity(${-position.y})`;
-      } else if (-position.y > 100) {
-        this.tabCenter.style.opacity = `1`;
-        this.tabCenter.style.filter = `opacity(100)`;
-      }
+
+      if (-position.y < 0) this.tabCenter.style.display = "none";
+      else this.tabCenter.style.display = "flex";
+      
+      this.$refs.detailsNavBar.$el.style.background = `rgba(255,255,255,${
+        -position.y / 100
+      })`;
+      this.tabCenter.style.opacity = `${-position.y / 100}`;
+      this.tabCenter.style.filter = `opacity(${-position.y})`;
+      this.tabCenter.style.opacity = `1`;
+      this.tabCenter.style.filter = `opacity(100)`;
       this.currentIndex = this.titleArr[parseInt(-position.y / 800)];
     },
     //tabCenter 点击后跳转滚动条位置
@@ -180,24 +179,16 @@ export default {
     },
   },
   filters: {
-    changePrice(val, str) {
-      console.log(val);
-      console.log(Number(val).toFixed(2));
-      if (arguments[1]) {
-        //第二个参数有值
-        console.log("存在");
-        return str + Number(val).toFixed(2);
-      } else {
-        //没值
-        console.log("不存在");
-        return Number(val).toFixed(2);
-      }
+    changePrice(val, str = "$") {
+      return str + Number(val).toFixed(2);
     },
   },
 };
 </script>
 <style lang='less'>
 #details {
+  /* tabbar导航的数量*/
+  /* @tabbar_length : 4;*/
   width: 100vw;
   height: 100vh;
   .detailsNavBar {
@@ -226,9 +217,17 @@ export default {
       div.el-tabs__nav {
         margin: 0 !important;
         width: 100%;
+        display: flex;
+      }
+      .el-tabs__nav-wrap {
+        width: 100%;
       }
       .el-tabs__active-bar {
-        width: 19% !important;
+        width: calc(100% / 4) !important;
+      }
+      .el-tabs__item {
+        flex: 1;
+        padding: 0;
       }
       .el-tabs__nav-wrap::after {
         background-color: transparent !important;

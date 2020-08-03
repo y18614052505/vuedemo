@@ -62,10 +62,12 @@ export default {
     TabBarItem
   },
   methods: {
-    getTabBar() {
+    getTabBar(path = '/jd_tabbar') {
       // return 
-      getTabBar().then(res=>{
+      getTabBar(path).then(res=>{
         this.tabBarArr = [...res.data]
+        console.log(res);
+        console.log(this.tabBarArr)
       })
     }
   }

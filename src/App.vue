@@ -4,29 +4,26 @@
       缓存中会存有数据记录，所以在使用过的时候，会出现数据不进行替换。 
       正常使用中，如果不使用keep-alive,组件在离开的时候会被销毁
     -->
-    <keep-alive :exclude="keepExclude" :include="keepInclude">
+    <keep-alive :exclude="$store.state.keepExclude" :include="$store.state.keepInclude">
       <router-view />
     </keep-alive>
-    <main-tab-bar v-if="is_jd_TabBar"></main-tab-bar>
-    <main-tab-bar v-if="is_jx_TabBar"></main-tab-bar>
+    <jd-main-tab-bar v-if="$store.state.TabBar.is_jd_TabBar"></jd-main-tab-bar>
+    <jx-main-tab-bar v-if="$store.state.TabBar.is_jx_TabBar"></jx-main-tab-bar>
   </div>
 </template>
 
 <script>
-import MainTabBar from "components/contents/MainTabbar/MainTabbar";
+import JdMainTabBar from "components/contents/MainTabbar/JdMainTabbar";
+import JxMainTabBar from "components/contents/MainTabbar/JxMainTabbar";
 export default {
   name: "app",
   data() {
     return {
-      is_jd_TabBar: true,
-      is_jx_TabBar:false,
-      userId:null,
-      keepExclude:'Details,Cart',
-      keepInclude:''
     };
   },
   components: {
-    MainTabBar
+    JdMainTabBar,
+    JxMainTabBar
   },
   mounted() {
   }

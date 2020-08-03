@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import store from '@/store';
 Vue.use(Router)
 const Home = () => import("views/home/Home")
 const FeaturePage = () => import("views/home/FeaturePage")
@@ -27,7 +27,7 @@ const routes = [
       {
         path: 'feature',
         name: 'feature',
-        component:FeaturePage
+        component: FeaturePage
       }
     ]
   },
@@ -57,7 +57,10 @@ const routes = [
     mata: {
       title: "惊喜"
     },
-    component: Jx
+    component: Jx,
+    // children:[
+    //   {}
+    // ]
   },
   {
     path: '/search',
@@ -92,5 +95,18 @@ const routes = [
 const routers = new Router({
   routes,
   mode: 'history',//可以修改模式
+})
+routers.beforeEach((to, from, next) => {
+  // to and from are both route objects. must call `next`.
+  console.log(to, from);
+
+  for (let item in store.state.TabBar) {
+    // item = false
+    console.log(item);
+    store.state.TabBar[item] = false
+  }
+  if (to.path == '/home' || to.path == '/category') store.state.TabBar.is_jd_TabBar = true
+  else if (to.path.lastIndexOf('/jx') != -1)  store.state.TabBar.is_jx_TabBar = true
+  next();
 })
 export default routers
