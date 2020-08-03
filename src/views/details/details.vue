@@ -42,7 +42,7 @@
             <el-dropdown-item command="/profile" disabled>浏览记录</el-dropdown-item>
             <el-dropdown-item command="/profile" divided>我的关注</el-dropdown-item>
             <el-dropdown-item command="/profile" divided>分享</el-dropdown-item>
-          </el-dropdown-menu> 
+          </el-dropdown-menu>
         </el-dropdown>
       </div>
     </nav-bar>
@@ -55,6 +55,7 @@
       <div style="height:800px;">推荐组件</div>
     </scroll>
     <!-- 手动轮播 -->
+    <details-tab-bar></details-tab-bar>
   </div>
 </template>
 
@@ -64,6 +65,7 @@ import NavBar from "components/common/navbar/NavBar";
 import Scroll from "components/contents/scroll/Scroll";
 //引入当前组件的子组件
 import DetailsRotation from "./childComp/DetailsRotation";
+import DetailsTabBar from "./childComp/DetailsTabBar";
 //引入商品数据网络请求
 // import {getgoods,getGoods_id} from 'network/goods'
 import { getGoodsId } from "network/goods";
@@ -86,6 +88,7 @@ export default {
     NavBar,
     Scroll,
     DetailsRotation,
+    DetailsTabBar,
   },
   computed: {},
   created() {
@@ -143,7 +146,7 @@ export default {
 
       if (-position.y < 0) this.tabCenter.style.display = "none";
       else this.tabCenter.style.display = "flex";
-      
+
       this.$refs.detailsNavBar.$el.style.background = `rgba(255,255,255,${
         -position.y / 100
       })`;

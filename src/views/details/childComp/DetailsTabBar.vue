@@ -11,10 +11,13 @@
         </tab-bar-item>
         <tab-bar-item>
             <img slot="item-icon" src="" />
-            <div slot="item-text">购物车</div>
+            <div slot="item-text" class='cart'>
+              购物车
+              <i>{{$store.state.shopCarLength}}11</i>
+            </div>
         </tab-bar-item>
     </tab-bar>
-    <div class='btn'>
+    <div class='btnAll'>
       <router-link tag='button' to='/cart'>
         <span>加入购物车</span>
       </router-link>
@@ -75,10 +78,28 @@ export default {
         position:static;
         min-width: 45vw;
         display: flex;
+        div{
+          position:relative;
+          i{
+            position: absolute;
+            right:0;
+            bottom:35px;
+            display: block;
+            width:22px;
+            height:22px;
+            border-radius:50%;
+            line-height: 22px;
+            text-align: center;
+            color:#fff;
+            background-color: red;
+            font-style:normal;
+          }
+        }
     }
-    div.btn{
+    div.btnAll{
         max-width:55vw;
         min-width: 30vw;
+        flex:1;
         display: flex;
         button{
             flex:1;
@@ -99,7 +120,7 @@ export default {
             }
         }
         button.payload{
-            background:yellow;
+            background:pink;
             color:#000;
         }
     }
