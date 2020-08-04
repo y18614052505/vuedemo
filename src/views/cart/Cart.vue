@@ -36,33 +36,10 @@
           <img :src="$store.state.urlPath+'/routine/cart_empty.png'" alt />
           <p>您的购物车还没有任何数据，请添加商品</p>
         </div>
-        <div v-else class="shop-cart-details">
-          <dl v-for="(item,key) in $store.state.shopCart" :key="key">
-            <dt>
-              <input type="radio" />
-              {{key}}
-            </dt>
-            <dd v-for="(obj,index) in item" :key="index">
-              <img :src="$store.state.urlPath+'/goods/'+obj.img_cover" alt="图片" />
-              <p>
-                title：{{obj.goods_name}}
-                <br />
-              </p>
-
-              <p>
-                规格：{{obj.norm}}
-                <br />
-              </p>
-
-              <p>
-                价格：{{obj.money_now}}
-                <br />
-              </p>
-              数量：{{obj.num}}
-              <br />
-            </dd>
-          </dl>
+        <div v-else>
+          <cart-goods  v-for="(item,key) in $store.state.shopCart" :key="key" :goods='item' :shopName='key'></cart-goods>
         </div>
+        
       </div>
       <div class="shopBox">aaaa</div>
     </scroll>
@@ -76,6 +53,7 @@ import NavBar from "components/common/navbar/NavBar";
 import Scroll from "components/contents/scroll/Scroll";
 //内部子组件
 import CartTabBar from "./childComp/CartTabBar";
+import CartGoods from "./childComp/CartGoods";
 export default {
   name: "Cart",
   created() {
@@ -87,7 +65,7 @@ export default {
   components: {
     NavBar,
     Scroll,
-    CartTabBar,
+    CartTabBar,CartGoods
   },
   methods: {
     pushRouter(path) {
@@ -98,6 +76,9 @@ export default {
     getShopCart() {
       this.$store.dispatch("getShopCart", this.$store.state.userInfo);
     },
+    checkShopSelect(){
+
+    }
   },
 };
 </script>
@@ -109,11 +90,11 @@ export default {
   .cartNavBar {
     background-color: #fff;
     .title {
-      font-size: 16px;
+      font-size: 18px;
       line-height: 24px;
     }
     .address {
-      font-size: 10px;
+      font-size: 14px;
       line-height: 20px;
       margin: 0 auto;
       max-width: 60%;
@@ -122,34 +103,7 @@ export default {
       text-overflow: ellipsis;
     }
   }
-  .shop-cart-details {
-    margin-top: 10px;
-    border-radius: 10px;
-    background-color: #fff;
-    dl {
-      border-bottom: 1px solid #d5d5d5;
-      margin-bottom: 5px;
-      margin-left: 20px;
-    }
-    dt {
-      text-align: left;
-      line-height: 30px;
-      input {
-        margin-right: 20px;
-      }
-    }
-    dd {
-      img {
-        width: 35%;
-        height: inherit;
-      }
-      p.title {
-      }
-      p.price {
-        color: red;
-      }
-    }
-  }
+  
   .shopBox {
     margin-top: 15px;
     border-radius: 10px;
