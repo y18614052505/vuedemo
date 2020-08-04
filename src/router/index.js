@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import store from '@/store';
 Vue.use(Router)
 const Home = () => import("views/home/Home")
-const FeaturePage = () => import("views/home/FeaturePage")
+// const FeaturePage = () => import("views/home/FeaturePage")
 const Category = () => import("views/category/Category")
 const Cart = () => import("views/cart/Cart")
 const Proflie = () => import("views/profile/Profile")
@@ -23,13 +23,6 @@ const routes = [
       title: "首页"
     },
     component: Home,
-    children: [
-      {
-        path: 'feature',
-        name: 'feature',
-        component: FeaturePage
-      }
-    ]
   },
   {
     path: "/category",//分类
