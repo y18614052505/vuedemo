@@ -5,7 +5,6 @@
       controlId='tabCon1'
       :titleArr="titleArr"
       :column="titleArr.length"
-      @tabClick="tabClick"
       ref="tabCon1"
       class="tabCon1"
       v-show="isTabFiexd"

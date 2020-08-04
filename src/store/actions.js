@@ -1,7 +1,10 @@
 // 解构赋值一个常量
 import * as types from "./mutation-types"
 export default {
-    getShopCart(context,payload){
-        context.commit(types.GET_SHOPCART,payload)
+    getShopCart(contents,payload){
+        // this.$store.commit("方法",参数)
+        //contents 相当与 $store   使用commit
+        //调用vuex的mutations中的 types.POST_SHOPCART 方法
+        contents.commit(types.POST_SHOPCART,payload)
     }
 }

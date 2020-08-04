@@ -1,7 +1,7 @@
 <template>
   <div id="home">
-    <nav-bar class="home-nav-bar" @leftBarClick="toCategory">
-      <div slot="left">分类</div>
+    <nav-bar class="home-nav-bar" >
+      <div slot="left" v-on:click="toCategory">分类</div>
       <div slot="center">
         <el-input v-model="input" placeholder="请输入内容" v-on:focus="toKeywords"></el-input>
       </div>

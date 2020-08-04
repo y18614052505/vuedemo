@@ -35,7 +35,7 @@ export function getGoods(data) {
 export function getGoodsId(id){
     return request({
         url:"/vuedemo/get_goodsDet",
-        params:{
+        params:{//get请求数据的时候，提交数据用params/query
             goods_id:id
         }
     })

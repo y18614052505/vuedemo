@@ -9,11 +9,11 @@
             <img slot="item-icon" src="" />
             <div slot="item-text">店铺</div>
         </tab-bar-item>
-        <tab-bar-item>
+        <tab-bar-item path='/cart'>
             <img slot="item-icon" src="" />
             <div slot="item-text" class='cart'>
               购物车
-              <i>{{$store.getters.shopCartLength}}</i>
+              <i>{{$store.state.shopCartLength}}</i>
             </div>
         </tab-bar-item>
     </tab-bar>

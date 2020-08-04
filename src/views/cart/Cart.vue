@@ -2,7 +2,7 @@
   <div>
     <scroll id="cartScroll">
       <nav-bar class="cartNavBar" ref="cartNavBar">
-        <div slot="left" class="left">
+        <div slot="left" class="left" v-on:click='$router.go(-1)'>
           <i class="el-icon-arrow-left"></i>
         </div>
         <div slot="center">购物车</div>
@@ -27,7 +27,16 @@
         登录可以同步账号下的购物车信息
         <router-link tag="a" to="/login">登录</router-link>
       </div>
-      <div v-else class="shopDetails">这个是购物车显示的数据</div>
+      <div>
+        <!-- 正常判断购物车数据 ShopCart 为空。。 -->
+        <div class='cart_empty' v-if='!$store.state.shopCartLength'>
+          <img :src="$store.state.urlPath+'/routine/cart_empty.png'" alt="">
+          <p>您的购物车还没有任何数据，请添加商品</p>
+        </div>
+        <div v-else> 
+          {{$store.state.temp}}      
+        </div>
+      </div>
       <div class="shopBox">aaaa</div>
     </scroll>
     <cart-tab-bar></cart-tab-bar>
@@ -43,6 +52,7 @@ import CartTabBar from "./childComp/CartTabBar";
 export default {
   name: "Cart",
   created() {
+    //如果用户存在。则网络请求shopCart数据
     if (this.$store.state.userInfo) {
       this.getShopCart();
     }
@@ -69,16 +79,9 @@ export default {
   height: calc(100vh - 49px);
   overflow: hidden;
   .shopDetails {
-    height: 300px;
-    background-color: red;
   }
   .shopBox {
-    height: 5000px;
-    background-image: -webkit-linear-gradient(to top, red, pink);
-    background-image: -moz-linear-gradient(to top, red, pink);
-    background-image: -ms-linear-gradient(to top, red, pink);
-    background-image: linear-gradient(to top, red, pink);
-  }
+    height: 5000px;}
 }
 body {
   margin: 0;
