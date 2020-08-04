@@ -26,6 +26,9 @@ export default {
     JxMainTabBar
   },
   mounted() {
+  },
+  created(){
+    console.log(this.$store.state.userInfo);
   }
 };
 </script>

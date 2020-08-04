@@ -27,9 +27,7 @@
         登录可以同步账号下的购物车信息
         <router-link tag="a" to="/login">登录</router-link>
       </div>
-      <div v-else class="shopDetails">
-        这个是购物车显示的数据
-      </div>
+      <div v-else class="shopDetails">这个是购物车显示的数据</div>
       <div class="shopBox">aaaa</div>
     </scroll>
     <cart-tab-bar></cart-tab-bar>
@@ -42,10 +40,13 @@ import NavBar from "components/common/navbar/NavBar";
 import Scroll from "components/contents/scroll/Scroll";
 //内部子组件
 import CartTabBar from "./childComp/CartTabBar";
-
 export default {
   name: "Cart",
-  created() {},
+  created() {
+    if (this.$store.state.userInfo) {
+      this.getShopCart();
+    }
+  },
   components: {
     NavBar,
     Scroll,
@@ -56,6 +57,10 @@ export default {
       console.log(path);
       this.$router.push(path);
     },
+    //获取购物车数据，调用vuex中actions的数据
+    getShopCart() {
+      this.$store.dispatch("getShopCart", this.$store.state.userInfo);
+    },
   },
 };
 </script>
@@ -64,7 +69,7 @@ export default {
   height: calc(100vh - 49px);
   overflow: hidden;
   .shopDetails {
-    height:300px;
+    height: 300px;
     background-color: red;
   }
   .shopBox {

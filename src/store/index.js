@@ -1,45 +1,33 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import router from '../router'
+import mutations from "./mutations"
+import getters from "./getters"
+import actions from "./actions"
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
-    urlPath: 'http://106.12.85.17:8090/public/image',
-    TabBar: {
-      is_jd_TabBar: true,
-      is_jx_TabBar: false,
-    },
-    userInfo: null,
-    keepExclude: 'Details,Cart',
-    keepInclude: '',
-    shopCar:{
-      //京东自营商品
-      jd:[],
-      //其他店铺商品
-      shop1:[],
-      shop2:[],
-      shop3:[]
-    }
+const state = {
+  urlPath: 'http://106.12.85.17:8090/public/image',
+  TabBar: {
+    is_jd_TabBar: true,
+    is_jx_TabBar: false,
   },
-  mutations: {
-    back() {
-      router.go(-1)
-    }
+  userInfo: 1,
+  keepExclude: 'Details,Cart',
+  keepInclude: '',
+  shopCart: {
+    jd: [1, 2, 3, 4],
+    shop1: [1, 2, 34],
+    shop2: [1, 2, 3, 4],
+    shop3: [12, 3, 123]
   },
-  getters:{
-    shopCarLength(state){
-      let temp = 0;
-      for (const iterator of state.shopCar) {
-        console.log(iterator)
-        temp += iterator.length;
-        console.log(temp);
-      }
-      return temp
-    }
-  },
-  actions: {
-  },
-  modules: {
-  }
+  loginRecords:'',//进入login的记录
+  temp:null,
+}
+const x = new Vuex.Store({
+  state,
+  mutations,
+  getters,
+  actions,
+  modules: {}
 })
+export default x

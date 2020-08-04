@@ -13,7 +13,7 @@
             <img slot="item-icon" src="" />
             <div slot="item-text" class='cart'>
               购物车
-              <i>{{$store.state.shopCarLength}}11</i>
+              <i>{{$store.getters.shopCartLength}}</i>
             </div>
         </tab-bar-item>
     </tab-bar>
@@ -46,6 +46,7 @@ export default {
   },
   created() {
     //创建
+    // console.log(this.$store.getters.shopCartLength)
   },
   activated() {
     //激活

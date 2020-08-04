@@ -66,8 +66,6 @@ export default {
       // return 
       getTabBar(path).then(res=>{
         this.tabBarArr = [...res.data]
-        console.log(res);
-        console.log(this.tabBarArr)
       })
     }
   }

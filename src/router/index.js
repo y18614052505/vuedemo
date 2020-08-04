@@ -58,9 +58,6 @@ const routes = [
       title: "惊喜"
     },
     component: Jx,
-    // children:[
-    //   {}
-    // ]
   },
   {
     path: '/search',
