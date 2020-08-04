@@ -18,15 +18,11 @@ const state = {
   //keep-leave
   keepExclude: 'Details,Cart',
   keepInclude: '',
-  shopCart: {
-    jd: [],
-    shop1: [],
-    shop2: [],
-    shop3: []
-  },
+  shopCart: {},
   shopCartLength:0,//购物车的数据数量
   loginRecords:'',//进入login的记录
   temp:null,
+  ShippingAddress:'北京市昌平区马池口镇吉利大学'   //配送地址
 }
 const x = new Vuex.Store({
   state,      //状态管理数据

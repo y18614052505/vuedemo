@@ -17,8 +17,21 @@ export default {
       console.log(res);
       if(res.code != 200) return console.log('请求数据失败');
       state.shopCartLength = res.data.length;
-      state.temp = res.data
-      console.log(state.temp);
+      // state.temp = res.data
+      // console.log(state.temp);
+
+      //循环，把同一个店铺的东西分组取出来。
+      res.data.forEach(item=>{
+        if (state.shopCart[item.shop_name]) {
+          state.shopCart[item.shop_name].push(item)     
+        }else{
+          state.shopCart[item.shop_name] = [item]
+        }
+      })
+      
+      console.log(state.shopCart);
+
+        
     })
   }
 }
