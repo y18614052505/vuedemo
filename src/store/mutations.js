@@ -14,6 +14,7 @@ export default {
   //所以要把当前的事件，在actions中进行执行
   [POST_SHOPCART](state,payload){
     postShopCart(payload).then(res=>{
+      state.shopCart = {};
       console.log(res);
       if(res.code != 200) return console.log('请求数据失败');
       state.shopCartLength = res.data.length;
