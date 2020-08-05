@@ -46,3 +46,27 @@ export function requestPost(config){
     })
     return instance(config)
 }
+
+//ip 请求
+export function requestIp(config){
+    const instance = new axios.create({
+        baseURL:"api/cityjson?ie=utf-8",
+        method: 'post'
+    })
+    //请求拦截
+    instance.interceptors.request.use(config=>{
+        //.....
+        // console.log(config);
+        return config
+    })
+
+    //响应拦截
+    instance.interceptors.response.use(res=>{
+        //....
+        // console.log(res);
+        return res.data
+    },err=>{
+        console.log(err);
+    })
+    return instance(config)
+}
