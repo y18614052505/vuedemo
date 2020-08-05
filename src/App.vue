@@ -19,23 +19,33 @@ export default {
   name: "app",
   data() {
     return {
+      ip:'1.1.1.1',
+      area:"北京",
+      brower:'谷歌',
+      osx:"window10"
     };
   },
   components: {
     JdMainTabBar,
-    JxMainTabBar
+    JxMainTabBar,
   },
-  mounted() {
-  },
-  created(){
+  mounted() {},
+  created() {
     console.log(this.$store.state.userInfo);
+    this.getShopCart();
+  },
+  methods:{
+    //获取购物车数据，调用vuex中actions的数据
+    getShopCart() {
+      this.$store.dispatch("getShopCart", this.$store.state.userInfo);
+    },
   }
 };
 </script>
 
 <style>
 @import "assets/css/base.css";
-#app{
-  height:100vh;
+#app {
+  height: 100vh;
 }
 </style>
