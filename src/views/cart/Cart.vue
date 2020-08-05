@@ -37,7 +37,7 @@
           <p>您的购物车还没有任何数据，请添加商品</p>
         </div>
         <div v-else>
-          <cart-goods  v-for="(item,key) in $store.state.shopCart" :key="key" :goods='item' :shopName='key'></cart-goods>
+          <cart-goods  v-for="(item,key) in $store.state.shopCart" :key="key" :goods='item' :shopName='key'  @checknorm='selectNorm'></cart-goods>
         </div>
         
       </div>
@@ -78,6 +78,9 @@ export default {
     },
     checkShopSelect(){
 
+    },
+    selectNorm(obj){
+      console.log(obj)
     }
   },
 };

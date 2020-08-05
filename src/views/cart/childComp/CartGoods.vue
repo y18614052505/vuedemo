@@ -7,19 +7,31 @@
       </div>
       <div v-for="(obj,index) in goods" :key="index" class="shopItem" :title="obj.goods_id">
         <div class="radio">
-          <input type="checkbox" />
+          <input type="checkbox" @click="checkObj(obj,index)" :checked='obj.ischeck == 1' />
         </div>
         <div class="shop">
           <div class="left">
             <img :src="$store.state.urlPath+'/goods/'+obj.img_cover" alt="图片" />
           </div>
-          <div class="right">
+          <div class="right" v-on:click="toDetails('/details/'+obj.goods_id)">
             <p class="title">title：{{obj.goods_name}}</p>
 
-            <p class>规格：{{obj.norm}}</p>
+            <div class="norm-box" @click.stop="checkNorm(obj)">
+              <p class="norm">
+                <em>{{obj.goods_name}}</em>
+                <span>
+                  , 选服务
+                  <i class="el-icon-arrow-down"></i>
+                </span>
+              </p>
+            </div>
 
             <p class="price">价格：{{obj.money_now}}</p>
-            <div>数量：{{obj.num}}</div>
+            <div>
+              <button @click.stop="num(obj,'-')">-</button>
+              {{obj.num}}
+              <button @click.stop="num(obj,'+')">+</button>
+            </div>
             <br />
           </div>
         </div>
@@ -43,32 +55,37 @@ export default {
       default: "",
     },
   },
-  data() {
-    return {};
+  data(){
+    return {
+      ischeck:true
+    }
   },
   components: {
     //组件
   },
-  computed: {
-    //计算
-  },
-  created() {
-    //创建
-  },
-  activated() {
-    //激活
-  },
-  deactivated() {
-    //未激活
-  },
-  mounted() {
-    //渲染
-  },
   methods: {
-    //事件
-  },
-  watch: {
-    //监听
+    toDetails(path) {
+      alert(path);
+      this.$router.push(path);
+    },
+    checkNorm(obj) {
+      console.log(obj);
+      this.$emit("checknorm", obj);
+    },
+    checkObj(obj,index) {
+      var e = e || event;
+
+      this.$store.state.shopCart[obj.shop_name][index].ischeck =Number(e.target.checked).toString();
+      console.log(e.target.checked, obj);
+    },
+    num(obj, operation) {
+      if (operation == "-") {
+        obj.num--;
+      }
+      if (operation == "+") {
+        obj.num++;
+      }
+    },
   },
 };
 </script>
@@ -96,8 +113,9 @@ export default {
       .radio {
         align-items: center;
         display: flex;
-        width: 40px;
+        width: 20px;
         justify-content: center;
+        margin-right: 10px;
         input {
           width: 16px;
           height: 16px;
@@ -108,7 +126,7 @@ export default {
         display: flex;
         flex: 1;
         .left {
-          flex: 3;
+          flex: 2.5;
           overflow: hidden;
           display: flex;
           align-items: center;
@@ -118,13 +136,43 @@ export default {
         }
         .right {
           line-height: @line-heigh;
-          padding: 5px;
+          padding: 0 15px;
           flex: 7;
           text-align: left;
           .title {
-            height: @line-heigh * 2;
+            // height: @line-heigh * 2;
             text-overflow: ellipsis;
             overflow: hidden;
+            display: -webkit-box; /*必须结合的属性 ，将对象作为弹性伸缩盒子模型显示 。*/
+            -webkit-line-clamp: 2; /*用来限制在一个块元素显示的文本的行数。*/
+            -webkit-box-orient: vertical; /*必须结合的属性 ，设置或检索伸缩盒对象的子元素的排列方式 。*/
+            margin-bottom: 10px;
+          }
+          .norm-box {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 10px;
+            .norm {
+              border-radius: 20px;
+              padding: 3px 10px;
+              background-color: #f2f2f2;
+              display: flex;
+              max-width: 100%;
+              width: auto;
+              vertical-align: middle;
+              em {
+                display: inline-block;
+                max-width: 60%;
+                font-style: normal;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+              }
+              span {
+                min-width: 74px;
+                margin-left: 5px;
+              }
+            }
           }
         }
       }
@@ -137,16 +185,16 @@ export default {
       margin-right: 20px;
     }
   }
-  dd {
-    img {
-      width: 35%;
-      height: inherit;
-    }
-    p.title {
-    }
-    p.price {
-      color: red;
-    }
-  }
+  // dd {
+  //   img {
+  //     width: 35%;
+  //     height: inherit;
+  //   }
+  //   p.title {
+  //   }
+  //   p.price {
+  //     color: red;
+  //   }
+  // }
 }
 </style>
