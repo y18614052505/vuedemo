@@ -7,3 +7,9 @@ export function postShopCart(data = "") {
         }
     })
 }
+export function UpdataShopCart(data = "") {
+    return requestPost({
+        url: '/vuedemo/update_shopcart',
+        data
+    })
+}
