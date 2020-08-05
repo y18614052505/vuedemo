@@ -1,35 +1,13 @@
 <template>
-  <tab-bar>
-    <tab-bar-item v-for="item in tabBarArr" :key='item.id' :path="item.path" :cstyle='tabbarstyle'>
-      <img slot="item-icon" :src="urlpath+item.img" />
-      <img slot="item-icon-active" :src="urlpath+item.activeImg" />
-      <div slot="item-text">{{item.title}}</div>
+  <tab-bar class='tabbar'>
+    <tab-bar-item v-for="item in tabBarArr" :key="item.id" :path="item.path" :cstyle="tabbarstyle" class='item'>
+      <img slot="item-icon" :src="$store.state.urlPath+'/tabbar/'+item.img" />
+      <img slot="item-icon-active" :src="$store.state.urlPath+'/tabbar/'+item.activeImg" />
+      <div slot="item-text">
+        {{item.title}}
+        <i v-if="item.path =='/cart'">{{$store.state.shopCartLength}}</i>
+      </div>
     </tab-bar-item>
-    <!-- <tab-bar-item path="/home" >
-      <img slot="item-icon" src="~/assets/img/tabbar/home.svg" />
-      <img slot="item-icon-active" src="~/assets/img/tabbar/home_active.svg" />
-      <div slot="item-text">首页</div>
-    </tab-bar-item>
-    <tab-bar-item path="/category">
-      <img slot="item-icon" src="~/assets/img/tabbar/category.svg" />
-      <img slot="item-icon-active" src="~/assets/img/tabbar/category_active.svg" />
-      <div slot="item-text">分类</div>
-    </tab-bar-item>
-    <tab-bar-item path="/jx" >
-      <img slot="item-icon" src="~/assets/img/tabbar/shopcart.svg" />
-      <img slot="item-icon-active" src="~/assets/img/tabbar/shopcart_active.svg" />
-      <div slot="item-text">惊喜</div>
-    </tab-bar-item>
-    <tab-bar-item path="/cart" >
-      <img slot="item-icon" src="~/assets/img/tabbar/shopcart.svg" />
-      <img slot="item-icon-active" src="~/assets/img/tabbar/shopcart_active.svg" />
-      <div slot="item-text">购物车</div>
-    </tab-bar-item>
-    <tab-bar-item path="/profile" >
-      <img slot="item-icon" src="~/assets/img/tabbar/profile.svg" />
-      <img slot="item-icon-active" src="~/assets/img/tabbar/profile_active.svg" />
-      <div slot="item-text">我的</div>
-    </tab-bar-item> -->
   </tab-bar>
 </template>
 
@@ -39,19 +17,18 @@ import TabBar from "components/common/tabbar/TabBar";
 // TabBarItem  插槽组件
 import TabBarItem from "components/common/tabbar/TabBarItem";
 //获取tabbar数据
-import {getTabBar} from 'network/tabbar'
+import { getTabBar } from "network/tabbar";
 export default {
   name: "MainTabbar",
   data() {
     return {
-      urlpath:"http://106.12.85.17:8090/public/image/tabbar/",
       tabbarstyle: {
         bgcolor: "white",
         activeBG: "white",
         color: "black",
-        activeTxt: "red"
+        activeTxt: "red",
       },
-      tabBarArr: []
+      tabBarArr: [],
     };
   },
   created() {
@@ -59,18 +36,37 @@ export default {
   },
   components: {
     TabBar,
-    TabBarItem
+    TabBarItem,
   },
   methods: {
-    getTabBar(path = '/jd_tabbar') {
-      // return 
-      getTabBar(path).then(res=>{
-        this.tabBarArr = [...res.data]
-      })
-    }
-  }
+    getTabBar(path = "/jd_tabbar") {
+      // return
+      getTabBar(path).then((res) => {
+        this.tabBarArr = [...res.data];
+      });
+    },
+  },
 };
 </script>
 
-<style scoped>
+<style lang='less' scoped>
+.tabbar .item{
+  position:relative;
+  div i{
+    position:absolute;
+    right:0px;
+    bottom:30px;
+    display: block;
+    width:24px;
+    height:16px;
+    background-color:#fff;
+    border:1px solid red;
+    color:red;
+    font-style: normal;
+    text-align: center;
+    line-height: 16px;
+    border-radius:8px;
+    font-size:10px;
+  }
+}
 </style>
