@@ -119,19 +119,24 @@ export default {
       let cart_goods = this.$refs.cart_goods;
       let num = 0;
       if (temp == "all") {
-        cart_goods.forEach(item => {
-          let checkbox1 = item.$el.querySelector(".shop_name input[type=checkbox]");
-          checkbox1.checked = allCheck.checked
-          let checkbox2 = item.$el.querySelectorAll(".radio input[type=checkbox]");
-          checkbox2.forEach(inputObj => {
-                inputObj.checked = allCheck.checked
+        cart_goods.forEach((item) => {
+          let checkbox1 = item.$el.querySelector(
+            ".shop_name input[type=checkbox]"
+          );
+          checkbox1.checked = allCheck.checked;
+          let checkbox2 = item.$el.querySelectorAll(
+            ".radio input[type=checkbox]"
+          );
+          checkbox2.forEach((inputObj) => {
+            inputObj.checked = allCheck.checked;
           });
-          if(allCheck.checked){//true
+          if (allCheck.checked) {
+            //true
             //取所有商品价钱总和
-            this.$store.state.totalPayment = this.$store.state.ShopCartMoneyAll
-            this.$store.state.totalNum =this.$store.state.ShopCartGoodsNum
+            this.$store.state.totalPayment = this.$store.state.ShopCartMoneyAll;
+            this.$store.state.totalNum = this.$store.state.ShopCartGoodsNum;
             //取商品数量总和
-          }else{
+          } else {
             this.$store.state.totalPayment = 0;
             this.$store.state.totalNum = 0;
           }
@@ -228,8 +233,6 @@ export default {
     border-radius: 10px;
     background-color: #fff;
     height: 5000px;
-  }
-  .shop-cart {
   }
 }
 body {
