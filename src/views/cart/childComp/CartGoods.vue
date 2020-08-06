@@ -1,13 +1,17 @@
 <template>
-  <div class="shop-cart-details">
+  <div class="shop-cart-details" ref="shop_cart_details">
     <div class="shop_shopItem">
       <div class="shop_name">
-        <input type="checkbox" />
+        <input type="checkbox" v-on:click="shopCheckAll" />
         {{shopName}}
+        <!-- <hr>
+        {{name}}
+        <hr>
+        {{goods}}-->
       </div>
       <div v-for="(obj,index) in goods" :key="index" class="shopItem" :title="obj.goods_id">
         <div class="radio">
-          <input type="checkbox" @click="checkObj(obj,index)" :checked='obj.ischeck == 1' />
+          <input type="checkbox" v-on:click="checkObj(index)" :checked="obj.ischeck == 1" />{{index}}
         </div>
         <div class="shop">
           <div class="left">
@@ -44,21 +48,29 @@
 export default {
   name: "",
   props: {
-    goods: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
+    // goods: {
+    //   type: Array,
+    //   default() {
+    //     return [];
+    //   },
+    // },
     shopName: {
       type: String,
       default: "",
     },
   },
-  data(){
+  data() {
     return {
-      ischeck:true
-    }
+      ischeck: true,
+    };
+  },
+  computed: {
+    name() {
+      return this.shopName;
+    },
+    goods() {
+      return this.$store.state.shopCart[this.name];
+    },
   },
   components: {
     //组件
@@ -72,11 +84,43 @@ export default {
       console.log(obj);
       this.$emit("checknorm", obj);
     },
-    checkObj(obj,index) {
+    // 商品的复选按钮被点击
+    checkObj(index) {
       var e = e || event;
-
-      this.$store.state.shopCart[obj.shop_name][index].ischeck =Number(e.target.checked).toString();
-      console.log(e.target.checked, obj);
+      console.log(index);
+      console.log(this.goods)
+      let num = 1;
+      if(!e.target.checked){
+        num = -1;
+      }
+      this.$store.state.totalPayment += this.goods[index].money_now * this.goods[index].num * num
+      this.$store.state.totalNum += num;
+      this.goods[index].ischeck = Number(e.target.checked).toString();
+      // console.log(e.target.checked, obj);
+      this.$emit('checkGoods','item')
+    },
+    // 店铺的复选按钮被点击
+    shopCheckAll() {
+      let e = e || event;
+      // console.log(e.target.checked);
+      let box = this.$refs.shop_cart_details;
+      let btnAll = box.querySelectorAll(".radio input[type='checkbox']");
+      let temp = 1;
+      if (!e.target.checked) {
+        temp = -1;
+      }
+      for (let i = 0; i < btnAll.length; i++) {
+        if(this.goods[i].ischeck == '1' && e.target.checked){
+          continue
+        } 
+        this.goods[i].ischeck = Number(e.target.checked).toString();
+        this.$store.state.totalPayment +=
+          this.goods[i].money_now * this.goods[i].num * temp;
+        this.$store.state.totalNum += temp;
+        btnAll[i].checked = e.target.checked;
+        this.$emit('checkGoods','shop_name')
+      }
+      console.log(this.goods)
     },
     num(obj, operation) {
       if (operation == "-") {

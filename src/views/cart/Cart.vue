@@ -42,13 +42,15 @@
             :key="key"
             :goods="item"
             :shopName="key"
+            ref="cart_goods"
             @checknorm="selectNorm"
+            @checkGoods="check_shop_all"
           ></cart-goods>
         </div>
       </div>
       <div class="shopBox">aaaa</div>
     </scroll>
-    <cart-tab-bar></cart-tab-bar>
+    <cart-tab-bar ref="tabBar" @check_all="check_shop_all"></cart-tab-bar>
   </div>
 </template>
 
@@ -110,12 +112,89 @@ export default {
       console.log(path);
       this.$router.push(path);
     },
-    //获取购物车数据，调用vuex中actions的数据
-    // getShopCart() {
-    //   console.log(this.$store.state.userInfo);
-      
-    // },
-    checkShopSelect() {},
+    check_shop_all(temp) {
+      //获取全选按钮
+      let allCheck = this.$refs.tabBar.$el.querySelector("#allCheck");
+      //获取4个商品按钮组件
+      let cart_goods = this.$refs.cart_goods;
+      let num = 0;
+      if (temp == "all") {
+        cart_goods.forEach(item => {
+          let checkbox1 = item.$el.querySelector(".shop_name input[type=checkbox]");
+          checkbox1.checked = allCheck.checked
+          let checkbox2 = item.$el.querySelectorAll(".radio input[type=checkbox]");
+          checkbox2.forEach(inputObj => {
+                inputObj.checked = allCheck.checked
+          });
+          if(allCheck.checked){//true
+            //取所有商品价钱总和
+            this.$store.state.totalPayment = this.$store.state.ShopCartMoneyAll
+            this.$store.state.totalNum =this.$store.state.ShopCartGoodsNum
+            //取商品数量总和
+          }else{
+            this.$store.state.totalPayment = 0;
+            this.$store.state.totalNum = 0;
+          }
+        });
+      } else if (temp == "shop_name") {
+        console.log("点击了店铺");
+        cart_goods.forEach((item) => {
+          // console.log(item);
+          //商铺全选 1个
+          let checkbox1 = item.$el.querySelector(
+            ".shop_name input[type=checkbox]"
+          );
+          if (checkbox1.checked == true) {
+            num++;
+          }
+        });
+        if (num == cart_goods.length) {
+          this.$refs.tabBar.$el.querySelector(
+            ".select-money input[type=checkbox]"
+          ).checked = true;
+        } else {
+          this.$refs.tabBar.$el.querySelector(
+            ".select-money input[type=checkbox]"
+          ).checked = false;
+        }
+      } else {
+        cart_goods.forEach((item) => {
+          // console.log(item);
+          //商铺全选 1个
+          let checkbox1 = item.$el.querySelector(
+            ".shop_name input[type=checkbox]"
+          );
+          //商铺选择 多个
+          let checkbox2 = item.$el.querySelectorAll(
+            ".radio input[type=checkbox]"
+          );
+          let num1 = 0;
+          checkbox2.forEach((inputObj) => {
+            // console.log(inputObj);
+            console.log(inputObj.checked);
+            if (inputObj.checked == true) {
+              num1++;
+            }
+          });
+          if (num1 == checkbox2.length) {
+            checkbox1.checked = true;
+            num++;
+          } else {
+            checkbox1.checked = false;
+          }
+          //判断是否被全选
+          if (num == cart_goods.length) {
+            this.$refs.tabBar.$el.querySelector(
+              ".select-money input[type=checkbox]"
+            ).checked = true;
+          } else {
+            this.$refs.tabBar.$el.querySelector(
+              ".select-money input[type=checkbox]"
+            ).checked = false;
+          }
+        });
+      }
+    },
     selectNorm(obj) {
       console.log(obj);
     },

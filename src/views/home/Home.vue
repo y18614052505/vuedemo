@@ -56,7 +56,6 @@ import HomeFeature from "./childComp/HomeFeature";
 import { debounce } from "common/utils";
 //引入其他文件
 //引入网络请求模块部分组件/方法
-import { requestIp } from "network/request";
 import { getHomeBanner, getFeature} from "network/home";
 //取商品数据
 import { getGoods} from "network/goods";
@@ -114,11 +113,6 @@ export default {
     this.getFeature(1);
     this.getGoodsMax("recommend");
     this.getGoodsMax("news");
-    requestIp().then((res) => {
-      this.$store.state.city = eval(
-        "(" + res.slice(res.indexOf("=") + 1, res.length - 1) + ")"
-      ).cname;
-    });
     this.getShopCart(this.$store.state.userInfo);
   },
   activated() {

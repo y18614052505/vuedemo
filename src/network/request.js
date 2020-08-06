@@ -51,7 +51,6 @@ export function requestPost(config){
 
 //ip 请求
 export function requestIp(config){
-    // axios.defaults.headers.post['Content-type']="Access-Control-Allow-Origin: *"
     
     const instance = new axios.create({
         baseURL:"api/cityjson?ie=utf-8",

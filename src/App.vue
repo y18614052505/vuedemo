@@ -15,24 +15,49 @@
 <script>
 import JdMainTabBar from "components/contents/MainTabbar/JdMainTabbar";
 import JxMainTabBar from "components/contents/MainTabbar/JxMainTabbar";
+import { requestIp } from "network/request";
 export default {
   name: "app",
   components: {
     JdMainTabBar,
     JxMainTabBar,
   },
-  computed: {//计算
-    is_jd_tabbar(){
-      return this.$store.state.TabBar.is_jd_TabBar
+  created() {
+    console.log(this.user);
+    requestIp().then((res) => {
+      if (!this.user) {
+        this.$store.state.ShoppingAddress = eval(
+          "(" + res.slice(res.indexOf("=") + 1, res.length - 1) + ")"
+        ).cname;
+      }
+      this.$store.state.city = eval(
+          "(" + res.slice(res.indexOf("=") + 1, res.length - 1) + ")"
+        ).cname;
+    });
+  },
+  computed: {
+    //计算
+    is_jd_tabbar() {
+      return this.$store.state.TabBar.is_jd_TabBar;
     },
-    is_jx_tabbar(){
-      return this.$store.state.TabBar.is_jx_TabBar
-    }
+    is_jx_tabbar() {
+      return this.$store.state.TabBar.is_jx_TabBar;
+    },
+    userInfo(){
+      return this.$store.state.userInfo
+    },
+    user() {
+      return (
+        this.userInfo != "" &&
+        this.userInfo != null &&
+        this.userInfo != undefined
+      );
+    },
   },
   watch: {
-    is_jd_tabbar(newVal,oldVal){
-      console.log(newVal,oldVal);
-    }
+    is_jd_tabbar(newVal, oldVal) {
+      console.log(newVal, oldVal);
+    },
   },
 };
 </script>

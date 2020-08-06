@@ -1,12 +1,12 @@
 <template>
   <div id="CartTabBar">
     <div class="select-money">
-      <label for="allCheck"><input type="checkbox" id='allCheck'/>全选</label> 
-      <div class="allMoney">合计:{{allMoney | changePrice("￥")}}</div>
+      <label for="allCheck" v-on:click="checkAll('all')"><input type="checkbox" id='allCheck' />全选</label> 
+      <div class="allMoney">合计:{{totalPayment | changePrice("￥")}}</div>
     </div>
     <div class="btn">
       <router-link tag="button" to="settlement" class="settlement">
-        <span class="settlement">去结算({{count}})</span>
+        <span class="settlement">去结算({{totalNum}})</span>
       </router-link>
     </div>
   </div>
@@ -15,15 +15,13 @@
 <script>
 export default {
   name: "DetailsTabBar",
-  data() {
-    return {
-      count: 0,
-      allMoney: 0,
-    };
-  },
-  components: {},
   computed: {
-    //计算
+    totalPayment(){
+      return this.$store.state.totalPayment
+    },
+    totalNum(){
+      return this.$store.state.totalNum
+    }
   },
   created() {
     //创建
@@ -38,7 +36,10 @@ export default {
     //渲染
   },
   methods: {
-    //事件
+    checkAll(data){
+      // console.log("被调用");
+      this.$emit('check_all',data)
+    }
   },
   watch: {
     //监听
