@@ -56,10 +56,10 @@ import HomeFeature from "./childComp/HomeFeature";
 import { debounce } from "common/utils";
 //引入其他文件
 //引入网络请求模块部分组件/方法
+import { requestIp } from "network/request";
 import { getHomeBanner, getFeature} from "network/home";
 //取商品数据
 import { getGoods} from "network/goods";
-
 export default {
   name: "Home",
   data() {
@@ -112,25 +112,25 @@ export default {
     this.getHomeBanner();
     //获取功能视图数据
     this.getFeature(1);
-    // var arr = [1,2,3,4,5]
-    // this.filterFeatrue(100)
     this.getGoodsMax("recommend");
     this.getGoodsMax("news");
-    console.log(this.feature);
+    requestIp().then((res) => {
+      this.$store.state.city = eval(
+        "(" + res.slice(res.indexOf("=") + 1, res.length - 1) + ")"
+      ).cname;
+    });
+    this.getShopCart(this.$store.state.userInfo);
   },
   activated() {
-    console.log("组件激活状态");
     //在组件激活的时候，调整滚动条的位置。
-    console.log(this.saveY);
     this.$refs.homeScrollCom.scroll.scrollTo(0 , this.saveY , 0);
-    // this.$refs.homeScrollCom.scrollTo1(0, this.saveY, 0);
-    // this.$refs.homeScrollCom.refreshScroll();
+    this.$refs.homeScrollCom.scrollTo1(0, this.saveY, 0);
+    this.$refs.homeScrollCom.refreshScroll();
   },
   deactivated() {
-    console.log("组件未激活状态");
     //在组件离开的时候，记录滚动条的位置
     this.saveY = this.$refs.homeScrollCom.scroll.y;
-    console.log(this.saveY);
+    // console.log(this.saveY);
   },
   computed: {
     //显示的goods是哪一个
@@ -166,7 +166,6 @@ export default {
     },
     //回到顶部
     toTop() {
-      // console.log("回到顶部");
       this.$refs.homeScrollCom.scrollTo1(0, 0, 300);
     },
     //取出home页现实的goods数据
@@ -177,11 +176,9 @@ export default {
         pagesize:10
       }
       getGoods(data).then((res) => {
-        // console.log(res);
         this.goods[type].page += 1;
         this.goods[type].list.push(...res.data);
         this.$refs.homeScrollCom.finishpullup();
-        console.log(this.$refs.homeScrollCom);
         this.isLoadmore = true; //获取到一次数据后isLoadmore 才变为true，才能进行下一次请求
       });
     },
@@ -201,17 +198,21 @@ export default {
     },
     //跳转关键字页面
     toKeywords() {
-      console.log("focus");
       this.$router.push("/keywords");
     },
     //点击功能视图的全部，执行的跳转事件
     toFeatureAll(){
-      console.log("功能视图组件的全部被点击触发");
       this.$router.push('/home/feature')
     },
     //切换功能视图横纵向展示事件
     changeDirection() {
       this.parentDirection = !this.parentDirection;
+    },
+    //获取购物车数据，调用vuex中actions的数据
+    getShopCart(data) {
+      if(data != "" && data != null && data != undefined){
+        this.$store.dispatch("getShopCart", data);
+      }  
     },
   },
   mounted() {
@@ -220,7 +221,6 @@ export default {
     this.$bus.$on(this.bus, () => {
       //当图片加载完成 在GoodsListItem中通过$bus总线 执行 当前方法 goodsImageLoad ,
       //然后对BScroll  进行重新计算高度
-      // console.log("aaa");
       // this.$refs.homeScrollCom.refresh(); // this.$refs.homeScrollCom   =>> 没找到 refresh方法()
       refresh();
     });

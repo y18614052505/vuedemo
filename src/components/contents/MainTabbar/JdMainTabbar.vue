@@ -1,11 +1,17 @@
 <template>
-  <tab-bar class='tabbar'>
-    <tab-bar-item v-for="item in tabBarArr" :key="item.id" :path="item.path" :cstyle="tabbarstyle" class='item'>
+  <tab-bar class="tabbar">
+    <tab-bar-item
+      v-for="item in tabBarArr"
+      :key="item.id"
+      :path="item.path"
+      :cstyle="tabbarstyle"
+      class="item"
+    >
       <img slot="item-icon" :src="$store.state.urlPath+'/tabbar/'+item.img" />
       <img slot="item-icon-active" :src="$store.state.urlPath+'/tabbar/'+item.activeImg" />
       <div slot="item-text">
         {{item.title}}
-        <i v-if="item.path =='/cart'">{{$store.state.shopCartLength}}</i>
+        <i v-if="item.path =='/cart'">{{shopCartLength}}</i>
       </div>
     </tab-bar-item>
   </tab-bar>
@@ -34,13 +40,20 @@ export default {
   created() {
     this.getTabBar();
   },
+  computed: {
+    shopCartLength() {
+      return this.$store.state.shopCartLength;
+    },
+    userInfo() {
+      return this.$store.state.userInfo;
+    },
+  },
   components: {
     TabBar,
     TabBarItem,
   },
   methods: {
     getTabBar(path = "/jd_tabbar") {
-      // return
       getTabBar(path).then((res) => {
         this.tabBarArr = [...res.data];
       });
@@ -50,23 +63,23 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.tabbar .item{
-  position:relative;
-  div i{
-    position:absolute;
-    right:0px;
-    bottom:30px;
+.tabbar .item {
+  position: relative;
+  div i {
+    position: absolute;
+    right: 0px;
+    bottom: 30px;
     display: block;
-    width:24px;
-    height:16px;
-    background-color:#fff;
-    border:1px solid red;
-    color:red;
+    width: 24px;
+    height: 16px;
+    background-color: #fff;
+    border: 1px solid red;
+    color: red;
     font-style: normal;
     text-align: center;
     line-height: 16px;
-    border-radius:8px;
-    font-size:10px;
+    border-radius: 8px;
+    font-size: 10px;
   }
 }
 </style>

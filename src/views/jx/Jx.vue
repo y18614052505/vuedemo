@@ -91,7 +91,6 @@ export default {
       feature: [],
       iscopy: true,
       goods: {
-        //
         recommend: {
           page: 0,
           list: [],

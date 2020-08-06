@@ -87,11 +87,10 @@ const routers = new Router({
   mode: 'history',//可以修改模式
 })
 routers.beforeEach((to, from, next) => {
-  // to and from are both route objects. must call `next`.
-  console.log(to, from);
-
+  // 每次路由在执行的时候，记录一下进入页面的路由地址，后期用于判断 tabbar被重复点击
+  store.state.SKnavigation = to.path
+  if(to.path == from.path) return
   for (let item in store.state.TabBar) {
-    // item = false
     console.log(item);
     store.state.TabBar[item] = false
   }

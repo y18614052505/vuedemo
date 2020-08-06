@@ -13,7 +13,7 @@
             <img slot="item-icon" src="" />
             <div slot="item-text" class='cart'>
               购物车
-              <i>{{$store.state.shopCartLength}}</i>
+              <i>{{shopCartLength}}</i>
             </div>
         </tab-bar-item>
     </tab-bar>
@@ -43,10 +43,23 @@ export default {
   },
   computed: {
     //计算
+    shopCartLength(){
+      return this.$store.state.shopCartLength
+    },
+    userInfo(){
+      return this.$store.state.userInfo
+    },
+    user(){
+      return this.userInfo!= "" && this.userInfo != null && this.userInfo != undefined
+    }
   },
   created() {
     //创建
     // console.log(this.$store.getters.shopCartLength)
+    if ( this.user && this.shopCartLength == 0) {
+      // this.getShopCart();
+      this.$store.dispatch("getShopCart", this.$store.state.userInfo);
+    }
   },
   activated() {
     //激活

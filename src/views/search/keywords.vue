@@ -20,8 +20,8 @@ export default {
     next()
   },
   created() {
-    console.log(this);
-    console.log(this.$root);
+    // console.log(this);
+    // console.log(this.$root);
     this.$root.$children[0].is_jd_TabBar = false // 也可以在页面渲染的时候 改变is_jd_TabBar的值
   },
   data() {

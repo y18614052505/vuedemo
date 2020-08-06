@@ -7,7 +7,7 @@
         </div>
         <div slot="center">
           <div class="title">购物车</div>
-          <p class="address">配送至:{{$store.state.ShippingAddress}}</p>
+          <p class="address">配送至:{{address}}</p>
         </div>
         <div slot="right" class="right">
           <!-- el-icon-more -->
@@ -32,14 +32,19 @@
       </div>
       <div>
         <!-- 正常判断购物车数据 ShopCart 为空。。 -->
-        <div class="cart_empty" v-if="!$store.state.shopCartLength">
-          <img :src="$store.state.urlPath+'/routine/cart_empty.png'" alt />
+        <div class="cart_empty" v-if="!shopCartLength">
+          <img :src="urlPath+'/routine/cart_empty.png'" alt />
           <p>您的购物车还没有任何数据，请添加商品</p>
         </div>
         <div v-else>
-          <cart-goods  v-for="(item,key) in $store.state.shopCart" :key="key" :goods='item' :shopName='key'  @checknorm='selectNorm'></cart-goods>
+          <cart-goods
+            v-for="(item,key) in shopCart"
+            :key="key"
+            :goods="item"
+            :shopName="key"
+            @checknorm="selectNorm"
+          ></cart-goods>
         </div>
-        
       </div>
       <div class="shopBox">aaaa</div>
     </scroll>
@@ -58,14 +63,47 @@ export default {
   name: "Cart",
   created() {
     //如果用户存在。则网络请求shopCart数据
-    if (this.$store.state.userInfo) {
-      this.getShopCart();
+    if (this.$store.state.userInfo && this.shopCartLength == 0) {
+      // this.getShopCart();
+      this.$store.dispatch("getShopCart", this.$store.state.userInfo);
     }
   },
   components: {
     NavBar,
     Scroll,
-    CartTabBar,CartGoods
+    CartTabBar,
+    CartGoods,
+  },
+  beforeRouteEnter(to, from, next) {
+    alert("进入cart");
+    //这是守卫是在组件创建创建之前调用的。所以不能获取实例 this
+    //因为当当前守卫执行的时候，组件实例还没有被创建
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    //导航离开该组件对应的路由时调用
+    //可以访问实例`this`
+    alert("离开cart");
+    next();
+  },
+  computed: {
+    shopCartLength() {
+      return this.$store.state.shopCartLength;
+    },
+    urlPath() {
+      return this.$store.state.urlPath;
+    },
+    address() {
+      return this.$store.state.ShoppingAddress;
+    },
+    shopCart() {
+      return this.$store.state.shopCart;
+    },
+  },
+  watch: {
+    shopCart(val) {
+      console.log(val);
+    },
   },
   methods: {
     pushRouter(path) {
@@ -73,15 +111,14 @@ export default {
       this.$router.push(path);
     },
     //获取购物车数据，调用vuex中actions的数据
-    getShopCart() {
-      this.$store.dispatch("getShopCart", this.$store.state.userInfo);
+    // getShopCart() {
+    //   console.log(this.$store.state.userInfo);
+      
+    // },
+    checkShopSelect() {},
+    selectNorm(obj) {
+      console.log(obj);
     },
-    checkShopSelect(){
-
-    },
-    selectNorm(obj){
-      console.log(obj)
-    }
   },
 };
 </script>
@@ -106,7 +143,7 @@ export default {
       text-overflow: ellipsis;
     }
   }
-  
+
   .shopBox {
     margin-top: 15px;
     border-radius: 10px;

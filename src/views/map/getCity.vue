@@ -11,16 +11,6 @@
 <script type='script' lang='js'>
 // import Vue from 'vue'
 import AMap from 'AMap';
-//vue使用组件
-// Vue.use(AMap);
-//配置高德组件基本信息
-// AMap.initAMapApiLoader({
-//   // 高德key
-//   key: '018949951561f8848fd02b1c322943a7',
-//   // 插件集合 （插件按需引入）
-//   plugin: ['AMap.Geolocation'],
-//   v: "0.5.10",
-// });
 import { Map} from "common/utils";
 export default {
   name: "getCity",

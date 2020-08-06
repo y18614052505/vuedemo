@@ -36,14 +36,6 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      //isActive:false //false 显示黑色图  true 显示粉色图
-      // activeStyle:{color:'black'}
-    };
-  },
-  mounted() {
-  },
   computed: {
     //通过计算属性来让tabbar的active效果改变
     isActive() {
@@ -55,7 +47,7 @@ export default {
   },
   methods: {
     itemClick() {
-      //路由跳转
+      if(this.path == this.$store.state.SKnavigation) return;
       this.$router.push(this.path); //category
       console.log(this.$route.path);
     }

@@ -1,20 +1,9 @@
 <template>
   <div id="details">
-    <nav-bar @leftBarClick="back" class="detailsNavBar" ref="detailsNavBar">
-      <div slot="left" class="left">
+    <nav-bar class="detailsNavBar" ref="detailsNavBar">
+      <div slot="left" class="left" v-on:click="$router.go(-1)">
         <i class="el-icon-arrow-left"></i>
       </div>
-      <!-- <div class="tabCenter" ref="center" slot="center">
-          <div
-            v-for="(item,index) in titleArr"
-            :key="index"
-            class="tab-bar-center-item"
-            v-on:click="tabCenterClick(index)"
-          >
-          {{item}}
-          </div>
-      </div>-->
-
       <el-tabs
         slot="center"
         ref="tabCenter"
@@ -89,6 +78,26 @@ export default {
     Scroll,
     DetailsRotation,
     DetailsTabBar,
+  },
+  beforeRouteEnter(to, from, next) {
+    alert("进入details");
+    //这是守卫是在组件创建创建之前调用的。所以不能获取实例 this
+    //因为当当前守卫执行的时候，组件实例还没有被创建
+    next()
+  },
+  beforeRouteUpdate(to, from, next) {
+    alert("details被复用");
+    //当路由被改变，且当前组件被复用时调用
+    //例如: 有路由/main/:id,   从/main/1 到/main/2之间进行跳转
+    //由于渲染main组件,因此组件实例会被复用，此时该守卫会被调用
+    //可以访问实例`this`
+    next()
+  },
+  beforeRouteLeave(to, from, next) {
+    //导航离开该组件对应的路由时调用
+    //可以访问实例`this`
+    console.log(from.path,"离开details",to.path);
+    next()
   },
   computed: {},
   created() {

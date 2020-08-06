@@ -22,7 +22,9 @@ const state = {
   shopCartLength:0,//购物车的数据数量
   loginRecords:'',//进入login的记录
   temp:null,
-  ShippingAddress:'北京市昌平区马池口镇吉利大学'   //配送地址
+  ShoppingAddress:'北京市昌平区马池口镇吉利大学',   //配送地址
+  city:null,
+  SKnavigation:null,//用于记录tabbar的上此 路由路径
 }
 const x = new Vuex.Store({
   state,      //状态管理数据

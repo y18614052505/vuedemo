@@ -1,6 +1,6 @@
 <template>
   <div>
-    登录页面
+    登录页面  {{$store.state.city}}
     <!-- <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
       <h3 class="login-title">欢迎登录</h3>
       <el-form-item label="账号" prop="username">
