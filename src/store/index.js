@@ -18,6 +18,7 @@ const state = {
   //keep-leave
   keepExclude: 'Details,Cart',
   keepInclude: '',
+  shopCartHistory:{},
   shopCart: {},
   shopCartLength:0,//购物车的数据数量
   loginRecords:'',//进入login的记录
