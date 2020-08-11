@@ -23,9 +23,12 @@ export default {
       //循环，把同一个店铺的东西分组取出来。
       res.data.forEach(item=>{//循环的是所有数据
         if (state.shopCart[item.shop_name]) {
-          state.shopCart[item.shop_name].push(item)     
+          state.shopCart[item.shop_name].push(item)   
+          state.indexArr[item.shop_name].push(item.goods_id)
         }else{
           state.shopCart[item.shop_name] = [item]
+          state.shopCartNameArr.push(item.shop_name);
+          state.indexArr[item.shop_name] = [item.goods_id]
         }
         //得到选中的商品的总价
         if(item.ischeck == '1'){

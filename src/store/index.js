@@ -30,6 +30,8 @@ const state = {
   SKnavigation:null,//用于记录tabbar的上此 路由路径
   ShopCartMoneyAll:0,//记录购物车所有商品价钱总和
   ShopCartGoodsNum:0,//记录购物车商品总数量
+  shopCartNameArr:[], // Cart2.vue 中需要的变量   --- 不使用element ui  无需考虑这里
+  indexArr:{},// Cart2.vue 中需要的变量 ---不使用element ui  无需考虑这里
 }
 const x = new Vuex.Store({
   state,      //状态管理数据
