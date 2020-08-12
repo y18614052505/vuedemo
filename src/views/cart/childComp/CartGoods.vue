@@ -7,9 +7,9 @@
       </div>
       <div v-for="(obj,index) in goods" :key="index" class="shopItem" :title="obj.goods_id">
         <div class="radio">
-          <input type="checkbox" :checked="obj.ischeck == 1" v-on:click='checkObj(index)' />{{index}}
+          <input type="checkbox" :checked="obj.ischeck == 1" v-on:click='checkObj(index)'/>
         </div>
-        <div class="shop" v-on:click="toDetails('/details/'+obj.goods_id)">
+        <div class="shop" v-on:click="toDetails('/details/'+obj.  goods_id)">
           <div class="left">
             <img :src="$store.state.urlPath+'/goods/'+obj.img_cover" alt="图片" />
           </div>
@@ -33,10 +33,11 @@
               <button v-on:click.stop ="num(index,'+')">+</button>
             </div>
             <br />
-          </div>
+          </div> 
         </div>
       </div>
     </div>
+    <hr>
   </div>
 </template>
 
@@ -48,11 +49,20 @@ export default {
       type: String,
       default: "",
     },
+    // goods:{
+    //   type:Array,
+    //   default(){
+    //     return []
+    //   }
+    // }
   },
   data() {
     return {
       ischeck: true,
     }
+  },
+  mounted(){
+    this.isShopCheckAll()
   },
   computed: {
     name() {
@@ -62,6 +72,9 @@ export default {
     goods() {
       return this.$store.state.shopCart[this.name];
     },
+    shopCart(){
+      return this.$store.state.shopCart
+    }
   },
   components: {
     //组件
@@ -99,6 +112,7 @@ export default {
       this.goods[index].ischeck = Number(e.target.checked).toString()
       this.isShopCheckAll()
     },
+    //判断全选是否被选中
     isShopCheckAll(){
       //获取盒子
       let box = this.$refs.shop_cart_details;
@@ -139,6 +153,14 @@ export default {
         this.goods[i].ischeck = Number(e.target.checked).toString()
       }
       this.$emit('ischeckshopall')
+    },
+    aaa(val){
+      let box = this.$refs.shop_cart_details;
+      let btnAll = box.querySelectorAll('.radio input[type=checkbox]');
+      for(let i = 0 ; i < btnAll.length ; i++){
+        btnAll[i].checked =val
+        this.goods[i].ischeck = Number(val).toString()
+      }
     }
   },
 };

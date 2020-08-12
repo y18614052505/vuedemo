@@ -7,9 +7,7 @@
       <div class="allMoney">合计:{{totalPayment | changePrice("￥")}}</div>
     </div>
     <div class="btn">
-      <router-link tag="button" to="settlement" class="settlement">
-        <span class="settlement">去结算({{totalNum}})</span>
-      </router-link>
+        <input type="submit" class="settlement" v-on:click='toPayment' :value="'去结算('+totalNum+')'" :disabled='totalNum==0' :class='{disabled:totalNum==0}'>
     </div>
   </div>
 </template>
@@ -29,6 +27,9 @@ export default {
     checkAll(data){
       // console.log("被调用");
       this.$emit('check_all',data)
+    },
+    toPayment(){
+      this.$router.push('/payment/[0,1,2,3]')
     }
   },
   filters: {
@@ -66,7 +67,7 @@ export default {
     max-width: 30vw;
     min-width: 30vw;
     display: flex;
-    button {
+    input.settlement {
       flex: 1;
       margin: 0 3px;
       height: 40px;
@@ -74,19 +75,12 @@ export default {
       font-size: 14px;
       padding: 0 13px;
       color: #fff;
-      background: red;
+      background:rgba(255,0,0,1);
       outline: none;
       border: none;
-      span {
-        display: block;
-        min-width: 14px;
-        overflow: hidden;
-        height: 14px;
-      }
     }
-    button.settlement {
-      background: red;
-      color: #fff;
+    input.disabled{
+      background:rgba(255,0,0,.3);
     }
   }
 }

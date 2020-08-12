@@ -43,6 +43,7 @@
             :shopName="key"
             ref="cart_goods"
             @checknorm="selectNorm"
+            :goods="item"
             @ischeckshopall="is_check_shop_all"
           ></cart-goods>
         </div>
@@ -101,39 +102,45 @@ export default {
       return this.$store.state.shopCart;
     },
   },
-  watch: {
-    shopCart(val) {
-      console.log(val);
-    },
-  },
   methods: {
     pushRouter(path) {
       this.$router.push(path);
     },
     //是否是全选商品
     is_check_shop_all() {
-      console.log(this.$refs.cart_goods);
       let cart_goods = this.$refs.cart_goods;
       let tabbar = this.$refs.tabBar;
-      let allCheck = tabbar.$el.querySelector('#allCheck')
+      let allCheck = tabbar.$el.querySelector("#allCheck");
       let temp = 0;
       cart_goods.forEach((item) => {
-        let shopNameCheck = item.$el.querySelector(".shop_name input[type=checkbox]");
+        let shopNameCheck = item.$el.querySelector(
+          ".shop_name input[type=checkbox]"
+        );
         if (shopNameCheck.checked) {
           temp++;
         }
       });
-      if(temp == cart_goods.length){
+      if (temp == cart_goods.length) {
         allCheck.checked = true;
-      }else{
+      } else {
         allCheck.checked = false;
       }
     },
     //全选按钮事件
     check_shop_all() {
-      console.log("我点击了全选按钮");
+      let e = event;
+      this.$refs.cart_goods.forEach((item)=>{
+        //调用组件内的与全选有关的方法
+        item.aaa(e.target.checked);
+        item.$el.querySelector(".shop_name input[type=checkbox]").checked = e.target.checked;
+      })
+      if(e.target.checked){
+        this.$store.state.totalPayment = this.$store.state.ShopCartMoneyAll
+        this.$store.state.totalNum = this.$store.state.ShopCartGoodsNum
+      }else{
+        this.$store.state.totalPayment = this.$store.state.totalNum = 0
+      }
     },
-  
     selectNorm(obj) {
       console.log(obj);
     },
@@ -141,6 +148,8 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+@font-size: 36px;
+
 #cartScroll {
   height: calc(100vh - 49px);
   overflow: hidden;
@@ -148,7 +157,7 @@ export default {
   .cartNavBar {
     background-color: #fff;
     .title {
-      font-size: 18px;
+      font-size: @font-size / 2;
       line-height: 24px;
     }
     .address {
