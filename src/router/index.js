@@ -5,15 +5,19 @@ Vue.use(Router)
 const Home = () => import("views/home/Home")
 // const FeaturePage = () => import("views/home/FeaturePage")
 const Category = () => import("views/category/Category")
-// const Cart = () => import("views/cart/Cart")
-// const Cart = () => import("views/cart/Cart1")
-const Cart = () => import("views/cart/Cart2")
+const Cart = () => import("views/cart/Cart")
 const Proflie = () => import("views/profile/Profile")
 const Jx = () => import("views/jx/Jx")
 const Search = () => import("views/search/Search")
 const KeyWords = () => import("views/search/Keywords")
 const Details = () => import('views/details/Details')
 const Login = () => import('views/login/Login')
+//确认订单
+const ConfirmOrder = () => import('views/order/ConfirmOrder')
+//订单
+const Order = () => import('views/order/Order')
+//支付
+const Payment = () => import('views/order/Payment')
 const routes = [
   {
     path: '',
@@ -81,7 +85,28 @@ const routes = [
       title: "登录"
     },
     component: Login
-  }
+  },
+  {//确认订单
+    path:'/confirm_order/:shop', //暂时直接传递商品数据
+    meta: {
+      title: "确认订单"
+    },
+    component: ConfirmOrder
+  },
+  {//支付页面 
+    path:"/payment/:order",
+    meta:{
+      title:"支付页面"
+    },
+    component: Payment
+  },
+  {//订单
+    path:'/Order', //暂时直接传递商品数据
+    meta: {
+      title: "订单页面"
+    },
+    component: Order
+  },
 ]
 
 const routers = new Router({

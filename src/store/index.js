@@ -16,7 +16,7 @@ const state = {
   //用户名数据
   userInfo: 1,
   //keep-leave
-  keepExclude: 'Details,Cart',
+  keepExclude: 'Details,Cart,Payment,ConfirmOrder,Order',
   keepInclude: '',
   shopCartHistory:{},
   shopCart: {},
@@ -32,6 +32,7 @@ const state = {
   ShopCartGoodsNum:0,//记录购物车商品总数量
   shopCartNameArr:[], // Cart2.vue 中需要的变量   --- 不使用element ui  无需考虑这里
   indexArr:{},// Cart2.vue 中需要的变量 ---不使用element ui  无需考虑这里
+  paymentGoods:[]
 }
 const x = new Vuex.Store({
   state,      //状态管理数据
