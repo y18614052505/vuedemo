@@ -7,7 +7,7 @@
       <div class="allMoney">合计:{{totalPayment | changePrice("￥")}}</div>
     </div>
     <div class="btn">
-        <input type="submit" class="settlement" v-on:click='toPayment' :value="'去结算('+totalNum+')'" :disabled='totalNum==0' :class='{disabled:totalNum==0}'>
+        <input type="submit" class="settlement" v-on:click='toPayment' :value="'去结算('+totalNum+')'" :disabled='totalNum == 0' :class='{disabled:totalNum == 0}'>
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
       this.$emit('check_all',data)
     },
     toPayment(){
-      this.$router.push('/payment/[0,1,2,3]')
+      this.$emit('cpayment')
     }
   },
   filters: {

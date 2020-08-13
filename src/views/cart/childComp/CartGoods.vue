@@ -99,7 +99,7 @@ export default {
         e.target.previousElementSibling.value= e.target.previousElementSibling.value * 1 + 1;
       }
       // console.log(this.goods[index]);
-      // console.log(this.$store.state.shopCart);
+      console.log(this.$store.state.shopCart);
     },
     checkObj(index){
       let e = e || event;
@@ -131,6 +131,7 @@ export default {
         shopBtn.checked = false;
       }
       this.$emit('ischeckshopall')
+
     },
     shopCheckAll(){
       let e = e || event;

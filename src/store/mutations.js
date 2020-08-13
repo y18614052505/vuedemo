@@ -22,15 +22,29 @@ export default {
       state.shopCartLength = res.data.length;
       //循环，把同一个店铺的东西分组取出来。
       res.data.forEach(item=>{//循环的是所有数据
-        if (state.shopCart[item.shop_name]) {
-          //购物车
-          state.shopCart[item.shop_name].push(item)
-          // state.indexArr[item.shop_name].push(item.goods_id)
-        }else{
-          state.shopCart[item.shop_name] = [item]
-          // state.shopCartNameArr.push(item.shop_name);
-          // state.indexArr[item.shop_name] = [item.goods_id]
+        // if (state.shopCart[item.shop_name]) {
+        //   //购物车
+        //   state.shopCart[item.shop_name].push(item)
+        //   state.shopCartHistory[item.shop_name].push(item)
+        //   // state.indexArr[item.shop_name].push(item.goods_id)
+        // }else{
+        //   state.shopCart[item.shop_name] = [item]
+        //   state.shopCartHistory[item.shop_name] = [item]
+        //   // state.shopCartNameArr.push(item.shop_name);
+        //   // state.indexArr[item.shop_name] = [item.goods_id]
+        // }
+        if (!state.shopCart[item.shop_name]) {
+          state.shopCart[item.shop_name] = []
+          state.shopCartHistory[item.shop_name] = []
         }
+        let a={},b={};
+        for(let i in item){
+          a[i] = item[i];
+          b[i] = item[i];
+        }
+        state.shopCart[item.shop_name].push(a)
+        state.shopCartHistory[item.shop_name].push(b)
+
         //得到选中的商品的总价
         if(item.ischeck == '1'){
           state.totalPayment += item.money_now * item.num
@@ -46,6 +60,7 @@ export default {
         state.ShopCartMoneyAll += item.money_now * item.num
         state.ShopCartGoodsNum += item.num * 1
       })
+      // console.log(state.shopCartHistory,'shopCartHistory');
     })
   },
   [types.UPDATE_SHOPCART](state,payload){//方法没有使用。不用定义

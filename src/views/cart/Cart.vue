@@ -50,7 +50,7 @@
       </div>
       <div class="shopBox">aaaa</div>
     </scroll>
-    <cart-tab-bar ref="tabBar" @check_all="check_shop_all"></cart-tab-bar>
+    <cart-tab-bar ref="tabBar" @check_all="check_shop_all" @cpayment="payment"></cart-tab-bar>
   </div>
 </template>
 
@@ -61,8 +61,15 @@ import Scroll from "components/contents/scroll/Scroll";
 //内部子组件
 import CartTabBar from "./childComp/CartTabBar";
 import CartGoods from "./childComp/CartGoods";
+
+import {UpdataShopCart} from 'network/shopCart'
 export default {
   name: "Cart",
+  data() {
+    return {
+      payMentData: [],
+    };
+  },
   created() {
     //如果用户存在。则网络请求shopCart数据
     if (this.$store.state.userInfo && this.shopCartLength == 0) {
@@ -82,12 +89,13 @@ export default {
   //   //因为当当前守卫执行的时候，组件实例还没有被创建
   //   next();
   // },
-  // beforeRouteLeave(to, from, next) {
-  //   //导航离开该组件对应的路由时调用
-  //   //可以访问实例`this`
-  //   alert("离开cart");
-  //   next();
-  // },
+  beforeRouteLeave(to, from, next) {
+    //导航离开该组件对应的路由时调用
+    //可以访问实例`this`
+    // alert("离开cart");
+    this.upDateShopCart();
+    next();
+  },
   computed: {
     shopCartLength() {
       return this.$store.state.shopCartLength;
@@ -125,24 +133,71 @@ export default {
       } else {
         allCheck.checked = false;
       }
+      console.log(this.$store.state.shopCart);
     },
     //全选按钮事件
     check_shop_all() {
       let e = event;
-      this.$refs.cart_goods.forEach((item)=>{
+      this.$refs.cart_goods.forEach((item) => {
         //调用组件内的与全选有关的方法
         item.aaa(e.target.checked);
-        item.$el.querySelector(".shop_name input[type=checkbox]").checked = e.target.checked;
-      })
-      if(e.target.checked){
-        this.$store.state.totalPayment = this.$store.state.ShopCartMoneyAll
-        this.$store.state.totalNum = this.$store.state.ShopCartGoodsNum
-      }else{
-        this.$store.state.totalPayment = this.$store.state.totalNum = 0
+        item.$el.querySelector(".shop_name input[type=checkbox]").checked =
+          e.target.checked;
+      });
+      if (e.target.checked) {
+        this.$store.state.totalPayment = this.$store.state.ShopCartMoneyAll;
+        this.$store.state.totalNum = this.$store.state.ShopCartGoodsNum;
+      } else {
+        this.$store.state.totalPayment = this.$store.state.totalNum = 0;
       }
     },
     selectNorm(obj) {
       console.log(obj);
+    },
+    //去结算的方法，被carttabbar组件调用
+    payment() {
+      //获取cart页面中被选择的订单商品
+      let cart_goods = this.$refs.cart_goods;
+      let arr = [];
+      cart_goods.forEach((item) => {
+        //获取每个组件内。商品前的复选框组
+        let inputAll = item.$el.querySelectorAll(".radio input");
+        // console.log(inputAll);
+        for (let i = 0; i < inputAll.length; i++) {
+          console.log(inputAll[i]);
+          if (inputAll[i].checked) {
+            //可以定义cart全局的，方便以后自己及组件使用
+            this.payMentData.push(item.goods[i]);
+            //方法存要提交的数据
+            arr.push(item.goods[i]);
+          }
+        }
+      });
+      this.$router.push("/payment/" + JSON.stringify(arr));
+    },
+    //在页面离开的时候。调用方法，修改数据库的值
+    upDateShopCart() {
+      let shopCart = { ...this.$store.state.shopCart };
+      let shopCartHistory = { ...this.$store.state.shopCartHistory };
+      for (let i in shopCart) {
+        for (let j = 0; j < shopCart[i].length; j++) {
+          if (
+            shopCart[i][j].ischeck != shopCartHistory[i][j].ischeck ||
+            shopCart[i][j].num != shopCartHistory[i][j].num ||
+            shopCart[i][j].norm != shopCartHistory[i][j].norm
+          ) {//请求修改购物车的接口  把数据传递上去。修改购物车数据
+            // console.log(shopCart[i][j]);
+            let data ={}
+            data.id = shopCart[i][j].id
+            data.num = shopCart[i][j].num
+            data.ischeck = shopCart[i][j].ischeck
+            data.norm = shopCart[i][j].norm
+            UpdataShopCart(data).then(res=>{
+              console.log(res);
+            })
+          }
+        }
+      }
     },
   },
 };
