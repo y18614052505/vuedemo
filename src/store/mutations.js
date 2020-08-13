@@ -10,6 +10,11 @@ export default {
   [types.BACK]() {
     router.go(-1)
   },
+  // [types.ROUTERTO](state,payload){
+  //   state;
+  //   console.log(payload);
+  //   // router.push(data);
+  // },
   //要做的是网络请求---->需要在actions中做分发监控,不然同步数据不会被改变
   //所以要把当前的事件，在actions中进行执行
   [types.POST_SHOPCART](state,payload){

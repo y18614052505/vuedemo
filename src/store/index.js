@@ -14,7 +14,7 @@ const state = {
     is_jx_TabBar: false,
   },
   //用户名数据
-  userInfo: 1,
+  userInfo:15,//user表中的id  
   //keep-leave
   keepExclude: 'Details,Cart,Payment,ConfirmOrder,Order',
   keepInclude: '',

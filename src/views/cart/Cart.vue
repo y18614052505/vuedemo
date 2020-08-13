@@ -2,7 +2,7 @@
   <div>
     <scroll id="cartScroll">
       <nav-bar class="cartNavBar" ref="cartNavBar">
-        <div slot="left" class="left" v-on:click="$router.go(-1)">
+        <div slot="left" class="left" v-on:click="$store.commit('BACK')">
           <i class="el-icon-arrow-left"></i>
         </div>
         <div slot="center">
@@ -50,7 +50,7 @@
       </div>
       <div class="shopBox">aaaa</div>
     </scroll>
-    <cart-tab-bar ref="tabBar" @check_all="check_shop_all" @cpayment="payment"></cart-tab-bar>
+    <cart-tab-bar ref="tabBar" @checkall="check_shop_all" @confirm="confirmOrder"></cart-tab-bar>
   </div>
 </template>
 
@@ -90,9 +90,7 @@ export default {
   //   next();
   // },
   beforeRouteLeave(to, from, next) {
-    //导航离开该组件对应的路由时调用
-    //可以访问实例`this`
-    // alert("离开cart");
+    //离开cart页面的时候，修改购物车数据
     this.upDateShopCart();
     next();
   },
@@ -113,6 +111,7 @@ export default {
   methods: {
     pushRouter(path) {
       this.$router.push(path);
+      // this.$store.commit('ROUTERTO',path)
     },
     //是否是全选商品
     is_check_shop_all() {
@@ -133,7 +132,6 @@ export default {
       } else {
         allCheck.checked = false;
       }
-      console.log(this.$store.state.shopCart);
     },
     //全选按钮事件
     check_shop_all() {
@@ -155,7 +153,7 @@ export default {
       console.log(obj);
     },
     //去结算的方法，被carttabbar组件调用
-    payment() {
+    confirmOrder() {
       //获取cart页面中被选择的订单商品
       let cart_goods = this.$refs.cart_goods;
       let arr = [];
@@ -173,28 +171,29 @@ export default {
           }
         }
       });
-      this.$router.push("/payment/" + JSON.stringify(arr));
+      this.$router.push("/confirm_order/" + JSON.stringify(arr));
     },
     //在页面离开的时候。调用方法，修改数据库的值
     upDateShopCart() {
+      //解构赋值购物车当前数据 shopCart
       let shopCart = { ...this.$store.state.shopCart };
+      //解构赋值购物车历史数据
       let shopCartHistory = { ...this.$store.state.shopCartHistory };
       for (let i in shopCart) {
         for (let j = 0; j < shopCart[i].length; j++) {
+          //如果当前数据和历史数据值不相等
           if (
             shopCart[i][j].ischeck != shopCartHistory[i][j].ischeck ||
             shopCart[i][j].num != shopCartHistory[i][j].num ||
             shopCart[i][j].norm != shopCartHistory[i][j].norm
-          ) {//请求修改购物车的接口  把数据传递上去。修改购物车数据
-            // console.log(shopCart[i][j]);
+          ) {//就请求修改购物车的接口  把数据传递上去。修改购物车数据
             let data ={}
             data.id = shopCart[i][j].id
             data.num = shopCart[i][j].num
             data.ischeck = shopCart[i][j].ischeck
             data.norm = shopCart[i][j].norm
-            UpdataShopCart(data).then(res=>{
-              console.log(res);
-            })
+            //执行网络请求
+            UpdataShopCart(data)
           }
         }
       }

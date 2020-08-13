@@ -94,7 +94,7 @@ const routes = [
     component: ConfirmOrder
   },
   {//支付页面 
-    path:"/payment/:order",
+    path:"/payment/:order_id",
     meta:{
       title:"支付页面"
     },
