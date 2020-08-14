@@ -26,7 +26,7 @@
           </el-dropdown>
         </div>
       </nav-bar>
-      <div v-if="!$store.state.userInfo" class="shopcart_login_bar">
+      <div v-if="!$store.state.userInfo.id" class="shopcart_login_bar">
         登录可以同步账号下的购物车信息
         <router-link tag="a" to="/login">登录</router-link>
       </div>
@@ -72,9 +72,9 @@ export default {
   },
   created() {
     //如果用户存在。则网络请求shopCart数据
-    if (this.$store.state.userInfo && this.shopCartLength == 0) {
+    if (this.$store.state.userInfo.id && this.shopCartLength == 0) {
       // this.getShopCart();
-      this.$store.dispatch("getShopCart", this.$store.state.userInfo);
+      this.$store.dispatch("getShopCart", this.$store.state.userInfo.id);
     }
   },
   components: {

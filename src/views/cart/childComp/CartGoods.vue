@@ -27,7 +27,7 @@
             </div>
 
             <p class="price">价格：{{obj.money_now}}</p>
-            <div>
+            <div class='num'>
               <button v-on:click.stop ="num(index,'-')">-</button>
               <input type="text" v-on:click.stop :value='obj.num'>
               <button v-on:click.stop ="num(index,'+')">+</button>
@@ -249,6 +249,18 @@ export default {
                 min-width: 74px;
                 margin-left: 5px;
               }
+            }
+          }
+          .num{
+            width:30%;
+            margin-left:70%;
+            button{
+              width:30%;
+              margin:2px 0;
+            }
+            input[type=text]{
+              width:30%;
+              text-align: center;
             }
           }
         }

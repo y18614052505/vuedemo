@@ -113,7 +113,7 @@ export default {
     this.getFeature(1);
     this.getGoodsMax("recommend");
     this.getGoodsMax("news");
-    this.getShopCart(this.$store.state.userInfo);
+    this.getShopCart(this.$store.state.userInfo.id);
   },
   activated() {
     //在组件激活的时候，调整滚动条的位置。

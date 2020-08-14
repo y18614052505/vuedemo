@@ -13,8 +13,18 @@ const state = {
     is_jd_TabBar: true,
     is_jx_TabBar: false,
   },
-  //用户名数据
-  userInfo:15,//user表中的id  
+  userInfo:{
+    defaddr:{id:1,user_id:'15',tel:"电话",addr:'省,市,县(乡,街道),具体地址',name:'接收人',default:1},
+    // defaddr:null,
+    id:'15',
+    email:'',
+    name:'',
+    qq:'',
+    wx:'',
+    img:"",
+    tel:'',
+    //autocode:''//这个值后期用户登录后，服务器会给你返回一个数值，这个数值用于用户自动登录的。当本地存储中存有这个值的时候，需要拿这个值访问自动登录接口，请求用户数据
+  },
   //keep-leave
   keepExclude: 'Details,Cart,Payment,ConfirmOrder,Order',
   keepInclude: '',

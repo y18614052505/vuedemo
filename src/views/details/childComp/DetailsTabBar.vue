@@ -47,7 +47,7 @@ export default {
       return this.$store.state.shopCartLength
     },
     userInfo(){
-      return this.$store.state.userInfo
+      return this.$store.state.userInfo.id
     },
     user(){
       return this.userInfo!= "" && this.userInfo != null && this.userInfo != undefined
@@ -58,7 +58,7 @@ export default {
     // console.log(this.$store.getters.shopCartLength)
     if ( this.user && this.shopCartLength == 0) {
       // this.getShopCart();
-      this.$store.dispatch("getShopCart", this.$store.state.userInfo);
+      this.$store.dispatch("getShopCart", this.userInfo);
     }
   },
   activated() {

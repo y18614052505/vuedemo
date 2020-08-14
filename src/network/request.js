@@ -34,7 +34,7 @@ export function requestPost(config){
     //请求拦截
     instance.interceptors.request.use(config=>{
         //.....
-        // console.log(config);
+        console.log(config);
         return config
     })
 
