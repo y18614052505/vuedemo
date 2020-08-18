@@ -70,7 +70,7 @@
 
 <script>
 import navBar from "components/common/navbar/NavBar";
-// import {phone_code} from 'network/login'
+import {register,land,autoLand} from 'network/user'
 export default {
   name: "Login",
   data() {
@@ -90,7 +90,27 @@ export default {
   },
   computed: {},
   created() {
-    // phone_code('13212345678')
+    register({
+      telphone:"13112345688",
+      password:"1234567",
+    }).then(res=>{
+      console.log(res);
+    })
+    land({//account 用户登录
+      actionKey:"account", 
+      username:"Mr.yang",
+      password:"987654321"
+    }).then(res=>{
+      console.log(res);
+      console.log(res.data.user.autocode);
+      //根据获取到的 登录码，在从新获取下数据
+      autoLand({
+        autocode:res.data.user.autocode
+      }).then(res=>{
+        console.log(res)
+      })
+    })
+    
   },
   mounted() {},
   methods: {

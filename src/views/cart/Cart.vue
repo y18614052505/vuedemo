@@ -162,7 +162,6 @@ export default {
         let inputAll = item.$el.querySelectorAll(".radio input");
         // console.log(inputAll);
         for (let i = 0; i < inputAll.length; i++) {
-          console.log(inputAll[i]);
           if (inputAll[i].checked) {
             //可以定义cart全局的，方便以后自己及组件使用
             this.payMentData.push(item.goods[i]);

@@ -26,6 +26,7 @@ export default {
     console.log(this.user);
     requestIp().then((res) => { //把地址获取拿到了app页面，因为其他页面加载也都是加载到app页面。
       //如果没有用户登录，则配送地址为获取的地址
+      if(!res) return 
       if (!this.user) {
         this.$store.state.ShoppingAddress = eval(
           "(" + res.slice(res.indexOf("=") + 1, res.length - 1) + ")"
