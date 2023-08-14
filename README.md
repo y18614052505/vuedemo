@@ -28,7 +28,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
 +   public 
-    +   1       干嘛的
+    +   1       干嘛的111
     +   2       干嘛的
 +   src
     +   assset  静态不打包文件
